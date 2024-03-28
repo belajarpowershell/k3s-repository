@@ -9,6 +9,9 @@ metadata:
 spec:
   project: default
   source:
+  helm:
+    valueFiles:
+    - values.yaml
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: prometheus
     targetRevision: 25.3.1
@@ -25,4 +28,3 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
-
