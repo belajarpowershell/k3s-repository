@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/belajarpowershell/k3s-repository.git
-    path: k3s-repository/root-app/
+    path: root-app
     targetRevision: HEAD
   destination:
     name: in-cluster
