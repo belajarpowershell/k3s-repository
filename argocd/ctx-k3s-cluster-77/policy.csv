@@ -1,0 +1,4 @@
+g, cluster-77-admin, role:admin
+g, platform-admin, role:admin
+g, read-only, role:readonly
+

@@ -1,5 +1,5 @@
 {
-  "repository": "$REPO_URL"
+  "repository": "$REPO_URL",
   "name" : "$NAME",
-  "version": "$CHART_VERSION"
+  "version": "$CHART_VERSION",
 }
