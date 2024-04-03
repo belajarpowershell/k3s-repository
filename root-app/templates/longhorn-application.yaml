@@ -16,7 +16,7 @@ spec:
         releaseName: longhorn
       parameters:
       - name: app
-        value: 
+        value: longhorn 
         
   destination:
     server: https://kubernetes.default.svc
