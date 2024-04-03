@@ -233,16 +233,16 @@ longhornUI:
 
 ingress:
   ## Set to true to enable ingress record generation
-  enabled: false
+  enabled: true #false
 
   ## Add ingressClassName to the Ingress
   ## Can replace the kubernetes.io/ingress.class annotation on v1.18+
-  ingressClassName: ~
+  ingressClassName: nginx
 
-  host: sslip.io
+  host: longhorn.k8s.lab
 
   ## Set this to true in order to enable TLS on the ingress record
-  tls: false
+  tls: true
 
   ## Enable this in order to enable that the backend service will be connected at port 443
   secureBackends: false
