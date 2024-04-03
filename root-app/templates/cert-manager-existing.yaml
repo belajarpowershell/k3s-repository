@@ -14,7 +14,7 @@ spec:
     helm:
       valueFiles:
       - values.yaml
-      releaseName: cert-manager-v1.14.4
+      releaseName: cert-manager
       parameters:
       - name: app
         value: cert-manager
