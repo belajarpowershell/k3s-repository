@@ -1,0 +1,25 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default  # must be default for root-app
+  # Specify repository
+  source:
+    repoURL: https://github.com/belajarpowershell/k3s-repository.git
+    path: app-of-apps
+    targetRevision: HEAD
+# Specify the destination cluster.    
+  destination:
+    server: https://kubernetes.default.svc
+    #name: in-cluster 
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
