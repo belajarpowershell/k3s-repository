@@ -17,7 +17,7 @@ spec:
       releaseName: prometheus
       parameters:
       - name: app
-        value: 
+        value: prometheus 
 
   destination:
     server: https://kubernetes.default.svc
