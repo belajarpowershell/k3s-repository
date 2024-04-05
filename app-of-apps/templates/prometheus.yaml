@@ -14,16 +14,18 @@ spec:
     helm:
       valueFiles:
       - values.yaml
+      values: |
+        pushgateway:
+          enabled: false
       releaseName: prometheus
       parameters:
       - name: app
-        value: prometheus 
-
+        value: prometheus
   destination:
     server: https://kubernetes.default.svc
     namespace: prometheus
   syncPolicy:
-    automated:
-      selfHeal: true
+    #automated:
+      #selfHeal: true
     syncOptions:
     - CreateNamespace=true
