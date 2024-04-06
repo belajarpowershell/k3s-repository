@@ -1,0 +1,29 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    helm:
+      valueFiles:
+      - values.yaml  
+      repoURL: https://github.com/belajarpowershell/k3s-repository.git
+      path: clusters/ctx-k3s-cluster-77/longhorn-1.5.3
+      targetRevision: HEAD
+        releaseName: longhorn
+      parameters:
+      - name: app
+        value: longhorn
+        
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  syncPolicy:
+    #automated:
+      #prune: true
+      #selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
