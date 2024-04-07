@@ -1,3 +1,4 @@
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -12,19 +13,10 @@ spec:
     helm:
       valueFiles:
       - values.yaml
-      values: |
-        pushgateway:
-          enabled: false
-      releaseName: prometheus
-      parameters:
-      - name: app
-        value: prometheus
-      targetRevision: HEAD
         releaseName: longhorn
       parameters:
       - name: app
         value: longhorn
-        
   destination:
     server: https://kubernetes.default.svc
     namespace: longhorn-system
@@ -34,4 +26,3 @@ spec:
       #selfHeal: true
     syncOptions:
     - CreateNamespace=true
-
