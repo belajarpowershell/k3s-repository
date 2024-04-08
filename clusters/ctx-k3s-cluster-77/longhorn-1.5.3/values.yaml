@@ -106,7 +106,7 @@ helmPreUpgradeCheckerJob:
   enabled: true
 
 csi:
-  kubeletRootDir: ~
+  kubeletRootDir: "/var/lib/kubelet"
   attacherReplicaCount: ~
   provisionerReplicaCount: ~
   resizerReplicaCount: ~
