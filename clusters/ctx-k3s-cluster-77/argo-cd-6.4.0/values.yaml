@@ -373,21 +373,21 @@ configs:
     # -- Plugin yaml files to be added to argocd-cmp-cm
     plugins: {
     # --- Second plugin
-      jsonnet-helm-with-crds-plugin:
-        init:
-          command: [sh]
-          args: [-c, 'echo "Initializing..."']
-        generate:
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\",\"Bar\": \"baz\"}}}"
-              args: ["mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -f './templates/_templates.jsonnet' ] && jsonnet ./templates/_templates.jsonnet > ./templates/templates.yaml || exit 0"]
-        discover:
-          fileName: "./subdir/s*.yaml"
-          find:
-            glob: "**/Chart.yaml"
-            command: [sh, -c, 'if [ "$ARGOCD_ENV_PLUGIN" = "jsonnet-helm-with-crds-plugin" ]; then echo Hi; fi' ]
+        jsonnet-helm-with-crds-plugin:
+          init:
+            command: [sh]
+            args: [-c, 'echo "Initializing..."']
+          generate:
+            command: ["/bin/sh", "-c"]
+            args:
+              - |
+                echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\",\"Bar\": \"baz\"}}}"
+                args: ["mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -f './templates/_templates.jsonnet' ] && jsonnet ./templates/_templates.jsonnet > ./templates/templates.yaml || exit 0"]
+          discover:
+            fileName: "./subdir/s*.yaml"
+            find:
+              glob: "**/Chart.yaml"
+              command: [sh, -c, 'if [ "$ARGOCD_ENV_PLUGIN" = "jsonnet-helm-with-crds-plugin" ]; then echo Hi; fi' ]
 
       # --- First plugin
       # my-plugin:
