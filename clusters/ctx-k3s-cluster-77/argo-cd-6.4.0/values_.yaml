@@ -365,29 +365,27 @@ configs:
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/
   cmp:
     # -- Create the argocd-cmp-cm configmap
-    create: false
+    create: true
 
     # -- Annotations to be added to argocd-cmp-cm configmap
     annotations: {}
 
     # -- Plugin yaml files to be added to argocd-cmp-cm
-    plugins: {}
-      # --- First plugin
-      # my-plugin:
-      #   init:
-      #     command: [sh]
-      #     args: [-c, 'echo "Initializing..."']
-      #   generate:
-      #     command: [sh, -c]
-      #     args:
-      #       - |
-      #         echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\",\"Bar\": \"baz\"}}}"
-      #   discover:
-      #     fileName: "./subdir/s*.yaml"
-      #     find:
-      #       glob: "**/Chart.yaml"
-      #       command: [sh, -c, find . -name env.yaml]
+    plugins:  
+      jsonnet-helm-with-crds:
+        init:
+          command: [sh]
+          args: [-c, 'echo "Initializing..."']
+        generate:
+          command: [sh, -c]
+          args:
+            - |
+              #echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\",\"Bar\": \"baz\"}}}"
+              args: ["mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -f './templates/_templates.jsonnet' ] && jsonnet ./templates/_templates.jsonnet > ./templates/templates.yaml || exit 0"]
 
+        discover:
+          fileName: "./helm-chart.libsonnet"
+    
       # --- Second plugin
       # my-plugin2:
       #   init:
@@ -403,7 +401,7 @@ configs:
       #     find:
       #       glob: "**/Chart.yaml"
       #       command: [sh, -c, find . -name env.yaml]
-
+    
   # -- Provide one or multiple [external cluster credentials]
   # @default -- `[]` (See [values.yaml])
   ## Ref:
@@ -1693,7 +1691,36 @@ server:
 
   # -- Additional containers to be added to the server pod
   ## Note: Supports use of custom Helm templates
-  extraContainers: []
+  extraContainers: #[]
+  - name: jsonnet-helm-with-crds
+    command: [/var/run/argocd/argocd-cmp-server] # Entrypoint should be Argo CD lightweight CMP server i.e. argocd-cmp-server
+    image: quay.io/argoproj/argocd:v2.9.0 # This can be off-the-shelf or custom-built image
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 999
+    volumeMounts:
+      - mountPath: /var/run/argocd
+        name: var-files
+      - mountPath: /home/argocd/cmp-server/plugins
+        name: plugins
+      # Remove this volumeMount if you've chosen to bake the config file into the sidecar image.
+      - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+        subPath: plugin.yaml
+        name: jsonnet-helm-with-crds
+      - name: 'custom-tools'
+        mountPath: '/usr/bin/jsonnet'
+        subPath: 'jsonnet'
+      # Starting with v2.4, do NOT mount the same tmp volume as the repo-server container. The filesystem separation helps 
+      # mitigate path traversal attacks.
+      - mountPath: /tmp
+        name: cmp-tmp
+  volumes:
+  - configMap:
+      name: jsonnet-helm-with-crds
+    name: jsonnet-helm-with-crds
+  - emptyDir: {}
+    name: cmp-tmp
+
   # - name: my-sidecar
   #   image: nginx:latest
   # - name: lemonldap-ng-controller
@@ -1714,6 +1741,11 @@ server:
   #   volumeMounts:
   #   - name: copy-portal-skins
   #     mountPath: /srv/var/lib/lemonldap-ng/portal/skins
+
+  # -- Init containers to add to the server pod
+  ## If your target Kubernetes cluster(s) require a custom credential (exec) plugin
+  ## you could use this (and the same in the application controller pod) to provide such executable
+  ## Ref: https://kubernetes.io/docs/reference/access-authn-authz/authentication/#client-go-credential-plugins
 
   # -- Init containers to add to the server pod
   ## If your target Kubernetes cluster(s) require a custom credential (exec) plugin
@@ -1873,9 +1905,9 @@ server:
       # -- Certificate issuer group. Set if using an external issuer. Eg. `cert-manager.io`
       group: ""
       # -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
-      kind: ""
+      kind: "ClusterIssuer"
       # -- Certificate issuer name. Eg. `letsencrypt`
-      name: ""
+      name: "ca-issuer-k8s-lab"
     # Private key of the certificate
     privateKey:
       # -- Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
@@ -2025,7 +2057,7 @@ server:
     # -- Enable TLS configuration for the hostname defined at `server.ingress.hostname`
     ## TLS certificate will be retrieved from a TLS secret `argocd-server-tls`
     ## You can create this secret via `certificate` or `certificateSecret` option
-    tls: false
+    tls: true
 
     # -- The list of additional hostnames to be covered by ingress record
     # @default -- `[]` (See [values.yaml])
@@ -2840,7 +2872,7 @@ applicationSet:
       # -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
       kind: ""
       # -- Certificate issuer name. Eg. `letsencrypt`
-      name: ""
+      name: "xxx-fff-yyy"
     # Private key of the certificate
     privateKey:
       # -- Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
