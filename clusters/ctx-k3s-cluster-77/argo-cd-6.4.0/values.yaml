@@ -371,7 +371,7 @@ configs:
     annotations: {}
 
     # -- Plugin yaml files to be added to argocd-cmp-cm
-    plugins: {}
+    plugins: {
     # --- Second plugin
       jsonnet-helm-with-crds-plugin:
         init:
@@ -420,7 +420,7 @@ configs:
       #     find:
       #       glob: "**/Chart.yaml"
       #       command: [sh, -c, find . -name env.yaml]
-
+    }
   # -- Provide one or multiple [external cluster credentials]
   # @default -- `[]` (See [values.yaml])
   ## Ref:
