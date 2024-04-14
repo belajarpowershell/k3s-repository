@@ -30,7 +30,7 @@ local chartVersion = p.version;
     'Chart.yaml': {
       name: name,
       apiVersion: 'v2',
-      version: '1.0.0.',
+      version: '1.0.0',
       dependancies: [
         {
           name: name,
