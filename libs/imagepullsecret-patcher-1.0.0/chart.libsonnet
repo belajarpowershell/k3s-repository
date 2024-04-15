@@ -31,7 +31,7 @@ local chartVersion = p.version;
       name: name,
       apiVersion: 'v2',
       version: '1.0.0',
-      dependancies: [
+      dependencies: [
         {
           name: name,
           repository: chartRepository,
