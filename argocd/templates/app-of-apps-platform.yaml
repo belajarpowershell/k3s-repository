@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/belajarpowershell/k3s-repository.git
-    path: app-of-apps
+    path: argocd
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
