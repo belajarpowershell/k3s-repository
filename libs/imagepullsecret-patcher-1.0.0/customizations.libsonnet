@@ -7,7 +7,7 @@
 
     
       image: {
-        repository: 'xxquay.io/titansoft/imagepullsecret-patcher',
+        repository: 'quay.io/titansoft/imagepullsecret-patcher',
         pullPolicy: 'IfNotPresent',
         tag: 'v0.14',
       },

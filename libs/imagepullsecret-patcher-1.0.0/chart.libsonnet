@@ -1,21 +1,3 @@
-// {
-//   apiVersion: 'v2',
-//   appVersion: '0.14',
-//   description: 'A Helm chart for imagepullsecret-patcher',
-//   home: 'https://github.com/titansoft-pte-ltd/imagepullsecret-patcher',
-//   maintainers: [
-//     {
-//       email: 'ops@empathy.co',
-//       name: 'Empathy Platform Team',
-//     },
-//   ],
-//   name: 'imagepullsecret-patcher',
-//   sources: [
-//     'https://github.com/titansoft-pte-ltd/imagepullsecret-patcher',
-//   ],
-//   type: 'application',
-//   version: '1.0.0',
-// }
 
 local p = import 'parameters.json';
 local c = import 'customizations.libsonnet';

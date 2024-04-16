@@ -13,7 +13,7 @@
     all_service_accounts: true,
     excluded_namespaces: [],
     interval: '10',
-    secretName: 's-test',
+    secretName: '',
   },
   imagePullSecrets: [],
   nameOverride: '',
