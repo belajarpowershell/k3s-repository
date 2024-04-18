@@ -14,7 +14,7 @@ spec:
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
-    namespace: app-of-apps
+    namespace: app-of-app
   syncPolicy:
     #automated:
      #selfHeal: true
