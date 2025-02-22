@@ -5,8 +5,8 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    server: https://kubernetes.default.svc
-    namespace: default
+    server: https://k3s2.k8s.lab:6443
+    namespace: echoserver
   project: default
   source:
     repoURL: https://github.com/belajarpowershell/k3s-repository.git
