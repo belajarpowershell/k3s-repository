@@ -11,11 +11,11 @@ spec:
   source:
     repoURL: https://github.com/belajarpowershell/k3s-repository.git
     targetRevision: main
-    path: k3s2/apps/cert-manager-ca
+    path: k3s1/apps/cert-manager-ca
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=false #true
 
