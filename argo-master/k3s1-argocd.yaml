@@ -1,0 +1,44 @@
+piVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://argo/argo-cd
+    targetRevision: 7.8.4  # Use the correct Helm chart version
+    chart: argo-cd
+    helm:
+      values: |
+        dex:
+          enabled: false
+        notifications:
+          enabled: false
+        applicationSet:
+          enabled: true
+        server:
+          ingress:
+            enabled: true
+            hostname: argocd1.k8s.lab
+            ingressClassName: nginx
+            tls: false
+          certificate:
+            enabled: true
+            secretName: argocd-server-tls
+            issuer:
+              kind: ClusterIssuer
+              name: ca-issuer-k8s-lab
+          extraArgs:
+            - --insecure
+        global:
+          domain: argocd.k8s.lab
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
