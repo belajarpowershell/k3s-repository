@@ -1,17 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-of-apps
+  name: cert-manager
   namespace: argocd
 spec:
   destination:
     server: https://k3s2.k8s.lab:6443
-    namespace: argocd
+    namespace: cert-manager
   project: default
   source:
-    repoURL: https://github.com/belajarpowershell/k3s-repository.git
-    targetRevision: main
-    path: k3s2/apps
+    chart: cert-manager
+    repoURL: https://charts.jetstack.io
+    targetRevision: v1.14.4  # Update this to the latest stable version if needed
+    helm:
+      values: |
+        installCRDs: true
   syncPolicy:
     automated:
       prune: true
