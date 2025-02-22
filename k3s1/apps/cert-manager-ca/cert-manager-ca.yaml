@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/belajarpowershell/k3s-repository.git
     targetRevision: main
-    path: k3s1/apps/cert-manager-ca
+    path: k3s1/apps/cert-manager-ca/manifest
   syncPolicy:
     automated:
       prune: true
