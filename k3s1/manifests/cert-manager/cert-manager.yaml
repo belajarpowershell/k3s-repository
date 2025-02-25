@@ -15,9 +15,9 @@ spec:
     helm:
       values: |
         installCRDs: true
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=false #true
+  syncPolicy: {}
+#    automated:
+#      prune: true
+#      selfHeal: true
+#    syncOptions:
+#      - CreateNamespace=false #true
