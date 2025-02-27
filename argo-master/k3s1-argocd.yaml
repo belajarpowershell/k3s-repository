@@ -22,7 +22,8 @@ spec:
             enabled: true
             hostname: argocd1.k8s.lab
             ingressClassName: nginx
-            tls: false
+            annotations:
+              nginx.ingress.kubernetes.io/backend-protocol: HTTP
           certificate:
             enabled: true
             secretName: argocd-server-tls
@@ -31,13 +32,14 @@ spec:
               name: ca-issuer-k8s-lab
           extraArgs:
             - --insecure
+          insecure: true
         global:
           domain: argocd.k8s.lab
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
-  syncPolicy: {}
-#    automated:
+  syncPolicy: 
+    automated: {}
 #      prune: true
 #      selfHeal: true
 #    syncOptions:
