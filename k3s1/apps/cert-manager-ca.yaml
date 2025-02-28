@@ -13,10 +13,10 @@ spec:
     targetRevision: main
     path: k3s1/manifests/cert-manager-ca
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=false #true
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: true
+#    syncOptions:
+#      - CreateNamespace=false #true
 

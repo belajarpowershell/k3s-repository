@@ -11,9 +11,9 @@ spec:
   source:
     repoURL: https://github.com/belajarpowershell/k3s-repository.git
     targetRevision: main
-    path: k3s1/apps
+    path: k3s1/manifests
     directory:
-      recurse: false #true 
+      recurse: true 
   syncPolicy:
     automated:
       prune: true
