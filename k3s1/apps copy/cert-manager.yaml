@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-of-apps1
+  name: apps-of-apps1
   namespace: argocd
 spec:
   destination:
@@ -11,13 +11,11 @@ spec:
   source:
     repoURL: https://github.com/belajarpowershell/k3s-repository.git
     targetRevision: main
-    path: libs/app-of-apps-platform/
-    directory:
-      recurse: true 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+    path: k3s1/manifests/cert-manager
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: true
+#    syncOptions:
+#      - CreateNamespace=false # true
 
