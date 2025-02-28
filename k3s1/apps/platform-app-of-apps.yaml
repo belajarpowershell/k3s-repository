@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: Platform app-of-apps
+  name: platform-app-of-apps
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/your-org/your-repo.git  # Your Git repo
+    repoURL: https://github.com/belajarpowershell/k3s-repository.git  # Your Git repo
     targetRevision: main
     path: k3s1/apps  # Points to Jsonnet files
     directory:
