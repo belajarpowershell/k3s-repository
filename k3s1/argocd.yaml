@@ -8,10 +8,10 @@ spec:
   source:
     repoURL: https://github.com/belajarpowershell/k3s-repository.git
     targetRevision: main
-    path: argo-master/
+    path: argo-master
   destination:
     server: https://kubernetes.default.svc  # Update this if needed
-    namespace: ingress-nginx
+    namespace: argocd
   syncPolicy: {}
 #    automated:
 #      prune: true
