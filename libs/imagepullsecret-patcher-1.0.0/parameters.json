@@ -1,6 +1,0 @@
-
-{
-    "repository": "https://empathyco.github.io/helm-charts",
-    "name": "imagepullsecret-patcher",
-    "version": "1.0.0"
-}
