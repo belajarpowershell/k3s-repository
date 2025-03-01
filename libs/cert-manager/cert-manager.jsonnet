@@ -1,6 +1,3 @@
-local config = import "k3s1/apps/cluster.jsonnet";  // Import cluster name
-
-{
   apiVersion: "argoproj.io/v1alpha1",
   kind: "Application",
   metadata: {
