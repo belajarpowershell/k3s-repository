@@ -1,6 +1,8 @@
-// Import cluster settings
-#local config = import "../../cluster.jsonnet";
-local config = import "../../k3s1/cluster.jsonnet";
-local certManagerApp = import "../../libs/cert-manager/cert-manager.jsonnet";
 
-certManagerApp  // This will output the exact JSON/YAML structure
+// Import cluster settings
+local config = import "../../../k3s1/cluster.jsonnet";  // Define config
+
+// Import the cert-manager template and pass config
+local certManagerApp = import "../../../libs/cert-manager/cert-manager.jsonnet";
+
+certManagerApp(config)  // Call the function with config

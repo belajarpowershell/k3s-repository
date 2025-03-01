@@ -1,3 +1,5 @@
+// cert-manager.jsonnet (in libs/cert-manager)
+local certManagerApp = function(config){  // Accept config as a parameter
   apiVersion: "argoproj.io/v1alpha1",
   kind: "Application",
   metadata: {
@@ -6,7 +8,7 @@
   },
   spec: {
     destination: {
-      server: "https://" + config.clusterName + ":6443",
+      server: "https://" + config.clusterName + ":6443",  // Use the passed config
       namespace: "cert-manager",
     },
     project: "default",
@@ -28,4 +30,7 @@
       syncOptions: ["CreateNamespace=true"],
     },
   },
-}
+};
+
+// Export the function
+certManagerApp
