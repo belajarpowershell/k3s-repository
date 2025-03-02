@@ -36,14 +36,18 @@ spec:
           enabled: false
         applicationSet:
           enabled: true
+        global:
+          domain: argocd.k8s.lab
         server:
           ingress:
             enabled: true
-            hostname: argocd2.k8s.lab
+            hostname: argocd1.k8s.lab
             ingressClassName: nginx
-            tls: false
+            annotations:
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
           extraArgs:
             - --insecure
+          insecure: true
 
 #  syncPolicy:
 #    automated:
