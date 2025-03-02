@@ -4,7 +4,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-app-of-apps-k3s2
+  name: argocd-k3s2
   namespace: argocd
 spec:
   project: default
