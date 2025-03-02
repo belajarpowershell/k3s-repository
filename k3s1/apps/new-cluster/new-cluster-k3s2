@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k3s2
+  namespace: argocd
+spec:
+  destination:
+    name: k3s2-cluster
+    server: https://k3s2.k8s.lab:6443
+  source:
+    repoURL: https://github.com/belajarpowershell/k3s-repository.git
+    targetRevision: HEAD
+    path: k3s2/apps
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

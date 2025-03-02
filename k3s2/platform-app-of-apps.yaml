@@ -11,11 +11,11 @@ spec:
   source:
     repoURL: https://github.com/belajarpowershell/k3s-repository.git # Your Git repo
     targetRevision: main
-    path: k3s1/apps # Points to Jsonnet files
+    path: k3s2/apps # Points to Jsonnet files
     directory:
       recurse: true # Ensure all Jsonnet files are processed
   destination:
-    server: https://kubernetes.default.svc
+    server: https://k3s2.k8s.lab:6443
     namespace: argocd
   # syncPolicy:
   #   automated:
