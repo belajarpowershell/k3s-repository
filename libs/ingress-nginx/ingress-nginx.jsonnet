@@ -17,13 +17,13 @@ local application = function(config){  // Accept config as a parameter
       repoURL: "https://kubernetes.github.io/ingress-nginx",
       targetRevision: "4.10.0",
     },
-    syncPolicy: {
-      automated: {
-        prune: true,
-        selfHeal: true,
-      },
-      syncOptions: ["CreateNamespace=true"],
-    },
+    // syncPolicy: {
+    //   automated: {
+    //     prune: true,
+    //     selfHeal: true,
+    //   },
+    //   syncOptions: ["CreateNamespace=true"],
+    // },
   },
 };
 

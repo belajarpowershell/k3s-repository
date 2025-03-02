@@ -1,9 +1,13 @@
 // cert-manager.jsonnet (in libs/cert-manager)
 local certManagerApp = function(config){  // Accept config as a parameter
+local argoappname =  if config.clustertype == "aks" 
+          then config.argocdapplicationprefix + "-" + config.clustertype + "-cert-manager"
+          else config.argocdapplicationprefix + "-cert-manager",
   apiVersion: "argoproj.io/v1alpha1",
   kind: "Application",
   metadata: {
-    name: config.argocdapplicationprefix + "-" + "cert-manager",
+    #name: config.argocdapplicationprefix + "-" + "cert-manager",
+    name: argoappname ,
     namespace: "argocd",
   },
   spec: {
