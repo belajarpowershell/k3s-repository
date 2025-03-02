@@ -1,0 +1,25 @@
+# enable ArgoCD to scan folder for new apps
+# this is the app of apps function.
+# one time run manualy or add via ArgoCD UI
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-app-of-apps
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/belajarpowershell/k3s-repository.git # Your Git repo
+    targetRevision: main
+    path: k3s2/apps # Points to Jsonnet files
+    directory:
+      recurse: true # Ensure all Jsonnet files are processed
+  destination:
+    server: https://k3s2.k8s.lab:6443
+    namespace: argocd
+  # syncPolicy:
+  #   automated:
+  #     prune: true
+  #     selfHeal: true
+  #   syncOptions:
+  #     - CreateNamespace=true
