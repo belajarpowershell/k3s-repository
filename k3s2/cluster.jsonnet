@@ -1,3 +1,3 @@
 {
-  clusterName: "k3s1.k8s.lab",
+  clusterName: "k3s2.k8s.lab",
 }
