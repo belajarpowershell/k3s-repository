@@ -1,16 +1,18 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: argocd-cluster-admin
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: argocd-application-controller
-  namespace: argocd
----
+# to deply argocd on remote cluster, clusterrolebinding must already be configured
+# Apply manually on k3s2
+# <argocd-clusterrolebinding.yaml>
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: argocd-cluster-admin
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: cluster-admin
+# subjects:
+#   - kind: ServiceAccount
+#     name: argocd-application-controller
+#     namespace: argocd
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
