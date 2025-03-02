@@ -11,7 +11,7 @@ local certManagerApp = function(config){  // Accept config as a parameter
       server: "https://" + config.clusterName + ":6443",  // Use the passed config
       namespace: "cert-manager",
     },
-    project: "default",
+    project: "platform-component",
     source: {
       chart: "cert-manager",
       repoURL: "https://charts.jetstack.io",
