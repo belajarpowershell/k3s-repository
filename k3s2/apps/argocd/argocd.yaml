@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argocd-k3s2
   namespace: argocd
 spec:
   destination:
-    server: https://kubernetes.default.svc
+    server: https://k3s2.k8s.lab:6443
     namespace: argocd
   project: default
   source:
