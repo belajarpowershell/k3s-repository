@@ -4,14 +4,11 @@ metadata:
   name: argocd
   namespace: argocd
 spec:
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
   project: default
   source:
-    chart: argo-cd
     repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: 7.8.4 # Update this to the latest stable version if needed
+    chart: argo-cd
+    targetRevision: 7.8.4
     helm:
       values: |
         dex:
@@ -20,18 +17,24 @@ spec:
           enabled: false
         applicationSet:
           enabled: true
+        global:
+          domain: argocd.k8s.lab
         server:
           ingress:
             enabled: true
             hostname: argocd1.k8s.lab
             ingressClassName: nginx
-            tls: false
+            annotations:
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
           extraArgs:
             - --insecure
-
-#  syncPolicy:
-#    automated:
-#      prune: true
-#      selfHeal: true
-#    syncOptions:
-#      - CreateNamespace=true
+          insecure: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
