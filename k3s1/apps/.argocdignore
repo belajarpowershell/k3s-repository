@@ -1,2 +1,2 @@
-k3s1/apps/cert-manager-ca/ca/clusterissuer.yaml
-k3s1/apps/cert-manager-ca/ca/secret.yaml
+apps/cert-manager-ca/ca/clusterissuer.yaml
+apps/cert-manager-ca/ca/secret.yaml
