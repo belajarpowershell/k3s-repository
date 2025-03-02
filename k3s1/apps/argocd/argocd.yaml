@@ -7,7 +7,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
-  project: platform-component
+  project: default
   source:
     chart: argo-cd
     repoURL: https://argoproj.github.io/argo-helm
