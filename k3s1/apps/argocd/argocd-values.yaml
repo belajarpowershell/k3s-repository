@@ -12,42 +12,43 @@ configs:
 
 controller:
   extraContainers:
-  - name: jsonnet-helm-with-crds
-    image: quay.io/argoproj/argocd:v2.9.0
-    command: [ "/var/run/argocd/argocd-cmp-server" ]
-    securityContext:
-      runAsNonRoot: true
-      runAsUser: 999
-    volumeMounts:
-    - mountPath: "/var/run/argocd"
-      name: var-files
-    - mountPath: "/home/argocd/cmp-server/plugins"
-      name: plugins
-    - mountPath: "/home/argocd/cmp-server/config/plugin.yaml"
-      name: jsonnet-helm-with-crds
-      subPath: "plugin.yaml"
-    - mountPath: "/tmp"
-      name: cmp-tmp
-    - mountPath: "/usr/bin/jsonnet"
-      name: custom-tools
-      subPath: "jsonnet"
+    - name: jsonnet-helm-with-crds
+      image: skfxz98apeacr.azurecr.io/quay.io/argoproj/argocd:v2.9.0
+      command: ["/var/run/argocd/argocd-cmp-server"]
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: "/var/run/argocd"
+          name: var-files
+        - mountPath: "/home/argocd/cmp-server/plugins"
+          name: plugins
+        - mountPath: "/home/argocd/cmp-server/config/plugin.yaml"
+          name: jsonnet-helm-with-crds
+          subPath: "plugin.yaml"
+        - mountPath: "/tmp"
+          name: cmp-tmp
+        - mountPath: "/usr/bin/jsonnet"
+          name: custom-tools
+          subPath: "jsonnet"
 
-  - name: jsonnet-helm
-    image: quay.io/argoproj/argocd:v2.9.0
-    command: [ "/var/run/argocd/argocd-cmp-server" ]
-    securityContext:
-      runAsNonRoot: true
-      runAsUser: 999
-    volumeMounts:
-    - mountPath: "/var/run/argocd"
-      name: var-files
-    - mountPath: "/home/argocd/cmp-server/plugins"
-      name: plugins
-    - mountPath: "/home/argocd/cmp-server/config/plugin.yaml"
-      name: jsonnet-helm
-      subPath: "plugin.yaml"
-    - mountPath: "/tmp"
-      name: cmp-tmp
-    - mountPath: "/usr/bin/jsonnet"
-      name: custom-tools
-      subPath: "jsonnet"
+    - name: jsonnet-helm
+      image: skfxz98apeacr.azurecr.io/quay.io/argoproj/argocd:v2.9.0
+      command: ["/var/run/argocd/argocd-cmp-server"]
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: "/var/run/argocd"
+          name: var-files
+        - mountPath: "/home/argocd/cmp-server/plugins"
+          name: plugins
+        - mountPath: "/home/argocd/cmp-server/config/plugin.yaml"
+          name: jsonnet-helm
+          subPath: "plugin.yaml"
+        - mountPath: "/tmp"
+          name: cmp-tmp
+        - mountPath: "/usr/bin/jsonnet"
+          name: custom-tools
+          subPath: "jsonnet"
+
