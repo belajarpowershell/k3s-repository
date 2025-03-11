@@ -29,6 +29,12 @@
             extraArgs:
               - --insecure
             insecure: true
+          configs
+            secret
+              argocdServerAdminPassword: '$2b$12$3peDOQrx3EVLpfCJ.lRQQOSVNBiyjbJ0ofT79qrsdJvU9eTBG.mFm'
+              argocdServerAdminPasswordMtime: "$(date +%FT%T%Z)"
+
+
           global:
             domain: argocd.k8s.lab
         |||,
