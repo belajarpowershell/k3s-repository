@@ -29,11 +29,10 @@ spec:
           extraArgs:
             - --insecure
           insecure: true
-        configs
-          secret
+        configs:
+          secret:
             argocdServerAdminPassword: '$2b$12$3peDOQrx3EVLpfCJ.lRQQOSVNBiyjbJ0ofT79qrsdJvU9eTBG.mFm'
             argocdServerAdminPasswordMtime: "$(date +%FT%T%Z)"
-
 
   destination:
     server: https://kubernetes.default.svc
