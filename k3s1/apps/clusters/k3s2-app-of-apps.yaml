@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    server: http://argocd2.k8s.lab # Pointing to ArgoCD on k3s2
+    server: https://kubernetes.default.svc # Pointing to ArgoCD on k3s2
     namespace: argocd
   project: default
   source:
