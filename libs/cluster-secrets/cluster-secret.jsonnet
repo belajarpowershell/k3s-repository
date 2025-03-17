@@ -1,3 +1,4 @@
+local clustername = { name: "my-cluster" };
 function(cluster)
 {
   "apiVersion": "v1",
@@ -11,7 +12,7 @@ function(cluster)
   },
   "type": "Opaque",
    "data": {
-     "name": cluster.name,
+     "name": std.base64.encode("%s" % clustername),
      "server": cluster.server,
     "config": (
       std.manifestJson({
