@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    server: https://kubernetes.default.svc # Pointing to ArgoCD on k3s2
+    server: https://k3s2.k8s.lab:6443 # Pointing to ArgoCD on k3s2
     namespace: argocd
   project: default
   source:
@@ -14,7 +14,7 @@ spec:
     path: k3s2/apps
     directory:
       recurse: true
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  # syncPolicy:
+  #   automated:
+  #     prune: true
+  #     selfHeal: true
