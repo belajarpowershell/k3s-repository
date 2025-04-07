@@ -31,22 +31,6 @@
       },
     },
     repoServer+: {
-      autoscaling: {
-        enabled: true,
-        minReplicas: 2,
-      },
-      serviceAccount+: {
-        create: true,
-      },
-      metrics+: {
-        enabled: true,
-        serviceMonitor+: {
-          enabled: true,
-          additionalLabels: {
-            release: p.name + '-prometheus',
-          },
-        },
-      },
       volumeMounts: [
         {
           name: 'custom-tools',

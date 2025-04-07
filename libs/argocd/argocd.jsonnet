@@ -10,7 +10,7 @@
     source: {
       repoURL: "https://charts.bitnami.com/bitnami",
       chart: "argo-cd",
-      targetRevision: "latest",
+      targetRevision: "4.1.0",
       helm: {
         values: |||
           dex:
