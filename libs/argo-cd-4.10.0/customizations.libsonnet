@@ -15,16 +15,22 @@
       extraArgs: [
         '--insecure',
       ],
-      ingress: {
+      ingress+: {
         enabled: true,
         ingressClassName: 'nginx',
         hostname: p.hostname,
         domain: p.domain,
-        tls: true,
+        https: false,
+        tls: [
+          {
+            hosts: [p.hostname],
+            secretName: 'argocd-tls',
+         },
+       ],
       },
     },
     configs+: {
-      secrets: {
+      secret: {
         argocdServerAdminPassword: '$2b$12$3peDOQrx3EVLpfCJ.lRQQOSVNBiyjbJ0ofT79qrsdJvU9eTBG.mFm',
         argocdServerAdminPasswordMtime: "$(date +%FT%T%Z)",
 
