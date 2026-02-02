@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://charts.bitnami.com/bitnami  # Ensure the correct repo
+    repoURL: https://charts.bitnami.com/bitnami # Ensure the correct repo
     chart: argo-cd
-    targetRevision: latest  # You can specify a version (e.g., 5.48.2)
+    targetRevision: 4.1.0 #latest  # You can specify a version (e.g., 5.48.2)
     helm:
       values: |
         dex:
@@ -33,5 +33,4 @@ spec:
     server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
-    automated: {}  # Remove or modify if you want manual sync
-
+    automated: {} # Remove or modify if you want manual sync
