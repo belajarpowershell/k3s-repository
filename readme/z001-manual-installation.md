@@ -36,10 +36,6 @@ helm upgrade --install argocd argo/argo-cd \
   --set server.ingress.annotations."nginx\.ingress\.kubernetes\.io/backend-protocol"="HTTP" \
   --set configs.secret.argocdServerAdminPassword='$2b$12$3peDOQrx3EVLpfCJ.lRQQOSVNBiyjbJ0ofT79qrsdJvU9eTBG.mFm' \
   --set configs.secret.argocdServerAdminPasswordMtime="$(date +%FT%T%Z)" \
-  -f ConfigMapPlugins.yaml \
-  -f plugins/values-plugins.yaml
-
-
 
 #argocdServerAdmin=admin
 #argocdServerAdminPassword=YourSecurePassword
@@ -50,7 +46,12 @@ helm uninstall argocd -n argocd
 ```
 https://argocd-master.k8s.lab/
 
+## Install configmap 
 
+## Container setup with custom tools
+- helm
+- jsonnet
+-
 
 ```
 
@@ -60,7 +61,7 @@ helm upgrade --install argocd argo/argo-cd \
   --version 4.10.0 \
   --namespace argocd \
   -f plugins/values-base.yaml \
-  -f plugins/values-plugins.yaml
+
 
 
 ```
