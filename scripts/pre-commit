@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Pre-commit hook to auto-generate manifests before commit
+# Install with: cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+#
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CHANGED_CLUSTERS=()
+
+# Check if any cluster files changed
+for cluster_dir in "$REPO_ROOT/clusters"/*; do
+    if [ -d "$cluster_dir" ]; then
+        cluster_name=$(basename "$cluster_dir")
+        
+        # Check if apps.jsonnet or params.libsonnet changed
+        if git diff --cached --name-only | grep -q "clusters/$cluster_name/"; then
+            CHANGED_CLUSTERS+=("$cluster_name")
+        fi
+    fi
+done
+
+# Generate manifests for changed clusters
+if [ ${#CHANGED_CLUSTERS[@]} -gt 0 ]; then
+    echo "Detected changes in clusters: ${CHANGED_CLUSTERS[*]}"
+    echo "Generating manifests..."
+    
+    for cluster in "${CHANGED_CLUSTERS[@]}"; do
+        if bash "$REPO_ROOT/scripts/generate-and-commit-manifests.sh" "$cluster" "main" "Pre-commit: Auto-generate manifests for $cluster" 2>/dev/null; then
+            echo "✓ Generated manifests for $cluster"
+        else
+            echo "✗ Failed to generate manifests for $cluster"
+        fi
+    done
+fi
+
+exit 0

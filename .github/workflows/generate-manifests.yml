@@ -1,0 +1,54 @@
+name: Generate and Deploy Manifests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'clusters/**'
+      - 'libs/**'
+      - '.github/workflows/generate-manifests.yml'
+  workflow_dispatch:
+    inputs:
+      cluster:
+        description: 'Cluster to generate manifests for'
+        required: true
+        default: 'k3s-master'
+
+jobs:
+  generate-manifests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install jsonnet
+        run: |
+          apt-get update
+          apt-get install -y jsonnet
+
+      - name: Generate manifests
+        run: |
+          CLUSTER="${{ github.event.inputs.cluster || 'k3s-master' }}"
+          mkdir -p generated-manifests
+          jsonnet -J libs clusters/${CLUSTER}/apps.jsonnet > generated-manifests/${CLUSTER}-apps.yaml
+
+      - name: Commit and push manifests
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+          
+          CLUSTER="${{ github.event.inputs.cluster || 'k3s-master' }}"
+          if git add generated-manifests/ && git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-generate manifests for ${CLUSTER} - $(date +'%Y-%m-%d %H:%M:%S')"
+            git push
+          fi
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: generated-manifests
+          path: generated-manifests/

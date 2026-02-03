@@ -8,7 +8,7 @@ local application = function(config){  // Accept config as a parameter
   },
   spec: {
     destination: {
-      server: "https://" + config.clusterName + ":6443",  // Use the passed config
+      server: config.clusterName + ":6443",  // Use the passed config
       namespace: "ingress-nginx",
     },
     project: "default",

@@ -2,7 +2,13 @@
 alias k=kubectl
 alias kg='k get '
 alias kgp='k get pods'
+alias kcuc='k config use-context'
+alias kcgc='k config get-contexts'
+alias kcc='k config current-context'
+
 alias kgpa='k get pods -A'
+
+
 alias kgd='k get deployments'
 alias kgs='k get svc'
 alias kgn='k get nodes'
