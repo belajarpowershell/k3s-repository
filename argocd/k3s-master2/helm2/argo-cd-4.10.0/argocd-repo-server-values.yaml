@@ -36,11 +36,6 @@ repoServer:
         | tar -xz
       mv jsonnet /custom-tools/
 
-      # helm
-      curl -L https://get.helm.sh/helm-v3.14.0-linux-amd64.tar.gz \
-        | tar -xz
-      mv linux-amd64/helm /custom-tools/
-
       chmod +x /custom-tools/*
     volumeMounts:
     - name: custom-tools
