@@ -1,0 +1,90 @@
+# ---------------------------
+# Base Argo CD Settings
+# ---------------------------
+dex:
+  enabled: false
+
+notifications:
+  enabled: false
+
+applicationSet:
+  enabled: true
+
+server:
+  ingress:
+    enabled: true
+    hostname: argocd-master.k8s.lab
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  extraArgs: [ "--insecure" ]
+  insecure: true
+
+global:
+  domain: k8s.lab
+
+configs:
+  secret:
+    argocdServerAdminPassword: '$2b$12$3peDOQrx3EVLpfCJ.lRQQOSVNBiyjbJ0ofT79qrsdJvU9eTBG.mFm'
+    argocdServerAdminPasswordMtime: "{{ .Release.Time }}"
+
+# ---------------------------
+# Sidecar Plugins + InitContainers
+# ---------------------------
+repoServer:
+  extraVolumes:
+  - name: custom-tools
+    emptyDir: {}
+  - name: jsonnet-helm-config
+    configMap:
+      name: argocd-cmp-jsonnet-helm
+  - name: jsonnet-helm-with-crds-config
+    configMap:
+      name: argocd-cmp-jsonnet-helm-with-crds
+
+  initContainers:
+  - name: download-tools
+    image: alpine:3.17
+    command: [ "sh", "-c" ]
+    args:
+    - |
+      set -e
+      mkdir -p /custom-tools
+      # Download jsonnet
+      wget -qO- https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz | tar -xzv -C /custom-tools
+      # Download helm
+      wget -qO- https://get.helm.sh/helm-v3.12.1-linux-amd64.tar.gz | tar -xzv -C /tmp && mv /tmp/linux-amd64/helm /custom-tools/
+    volumeMounts:
+    - name: custom-tools
+      mountPath: /custom-tools
+
+  extraContainers:
+  - name: jsonnet-helm
+    image: alpine:3.17
+    command: [ "/bin/sh", "-c" ]
+    args:
+    - >
+      export PATH=/custom-tools:$PATH && mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -f './templates/_templates.jsonnet' ] && jsonnet ./templates/_templates.jsonnet > ./templates/templates.yaml || exit 0
+    volumeMounts:
+    - name: custom-tools
+      mountPath: /custom-tools
+    - name: plugins
+      mountPath: /home/argocd/cmp-server/plugins
+    - name: jsonnet-helm-config
+      mountPath: /home/argocd/cmp-server/config/plugin.yaml
+      subPath: plugin.yaml
+
+  - name: jsonnet-helm-with-crds
+    image: alpine:3.17
+    command: [ "/bin/sh", "-c" ]
+    args:
+    - >
+      export PATH=/custom-tools:$PATH && mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -f './templates/_templates.jsonnet' ] && jsonnet ./templates/_templates.jsonnet > ./templates/templates.yaml || exit 0
+    volumeMounts:
+    - name: custom-tools
+      mountPath: /custom-tools
+    - name: plugins
+      mountPath: /home/argocd/cmp-server/plugins
+    - name: jsonnet-helm-with-crds-config
+      mountPath: /home/argocd/cmp-server/config/plugin.yaml
+      subPath: plugin.yaml
