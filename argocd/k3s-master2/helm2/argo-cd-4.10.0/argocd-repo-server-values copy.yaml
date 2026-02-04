@@ -1,10 +1,74 @@
+# =========================
+# Repo Server Configuration
+# =========================
 repoServer:
+  env:
+  - name: PATH
+    value: "/custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+  volumes:
+  - name: custom-tools
+    emptyDir: {}
+
+  - name: plugins
+    configMap:
+      name: jsonnet-helm
+
+  - name: plugins-with-crds
+    configMap:
+      name: jsonnet-helm-with-crds
+
+  - name: tmp
+    emptyDir: {}
+
+  volumeMounts:
+  - name: custom-tools
+    mountPath: /custom-tools
+
+  - name: plugins
+    mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm
+
+  - name: plugins-with-crds
+    mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm-with-crds
+
+  - name: tmp
+    mountPath: /tmp
+
   initContainers:
   - name: download-tools
     image: alpine:3.18
     command: [ "sh", "-c" ]
     args:
-    - wget -qO- https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz | tar -xvzf - && mv jsonnet /custom-tools/
+    - |
+      set -eux
+      apk add --no-cache curl tar gzip
+      curl -L https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz \
+        | tar -xz
+      mv jsonnet /custom-tools/
+      chmod +x /custom-tools/jsonnet
     volumeMounts:
-    - name: custom-tools # <-- this must match an existing volume in ArgoCD chart
+    - name: custom-tools
+      mountPath: /custom-tools
+
+  extraContainers:
+  - name: jsonnet-helm-plugin
+    image: quay.io/argoproj/argocd:v2.9.3
+    command: [ "/var/run/argocd/argocd-cmp-server" ]
+    env:
+    - name: PATH
+      value: "/custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    volumeMounts:
+    - name: var-files
+      mountPath: /var/run/argocd
+
+    - name: plugins
+      mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm
+
+    - name: plugins-with-crds
+      mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm-with-crds
+
+    - name: tmp
+      mountPath: /tmp
+
+    - name: custom-tools
       mountPath: /custom-tools
