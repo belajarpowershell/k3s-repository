@@ -6,7 +6,7 @@ repoServer:
   - name: PATH
     value: "/custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-  extraVolumes:
+  volumes:
   - name: custom-tools
     emptyDir: {}
 
@@ -21,7 +21,7 @@ repoServer:
   - name: tmp
     emptyDir: {}
 
-  extraVolumeMounts:
+  volumeMounts:
   - name: custom-tools
     mountPath: /custom-tools
 
@@ -42,7 +42,6 @@ repoServer:
     - |
       set -eux
       apk add --no-cache curl tar gzip
-
       curl -L https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz \
         | tar -xz
       mv jsonnet /custom-tools/
