@@ -29,6 +29,7 @@ helm upgrade --install argocd argo/argo-cd \
   --set applicationSet.enabled=true \
   --set server.ingress.enabled=true \
   --set server.ingress.hosts[0]="argocd-master.k8s.lab" \
+  --set server.ingress.name=argocd \
   --set server.ingress.ingressClassName=nginx \
   --set global.domain=k8s.lab \
   --set hostname=argocd-master.k8s.lab \

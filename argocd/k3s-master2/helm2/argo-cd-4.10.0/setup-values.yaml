@@ -16,6 +16,7 @@ server:
     hosts:
     - argocd-master.k8s.lab
     ingressClassName: nginx
+    name: argocd
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   extraArgs: [ "--insecure" ]
