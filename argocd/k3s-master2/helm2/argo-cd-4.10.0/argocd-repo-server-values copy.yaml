@@ -3,9 +3,8 @@ repoServer:
   - name: download-tools
     image: alpine:3.18
     command: [ "sh", "-c" ]
-    args: [
-       "wget -qO- https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz | tar -xvzf - && mv jsonnet /custom-tools/"
-    ],
+    args:
+    - wget -qO- https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz | tar -xvzf - && mv jsonnet /custom-tools/
     volumeMounts:
     - name: custom-tools # <-- this must match an existing volume in ArgoCD chart
       mountPath: /custom-tools
