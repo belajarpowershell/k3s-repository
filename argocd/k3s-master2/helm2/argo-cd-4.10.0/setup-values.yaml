@@ -13,7 +13,8 @@ applicationSet:
 server:
   ingress:
     enabled: true
-    hostname: argocd-master.k8s.lab
+    hosts:
+    - argocd-master.k8s.lab
     ingressClassName: nginx
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"

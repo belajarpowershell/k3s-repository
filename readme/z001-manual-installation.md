@@ -64,5 +64,28 @@ helm upgrade --install argocd argo/argo-cd \
   -f plugins/values-base.yaml \
 
 
+helm upgrade --install argocd argo/argo-cd \
+  -n argocd \
+  --version 4.10.0 \
+  -f argocd-repo-server-values.yaml
 
 ```
+
+
+project: default
+source:
+  repoURL: 'https://github.com/belajarpowershell/k3s-repository'
+  path: argocd/k3s-master2/helm2/argo-cd-4.10.0
+  targetRevision: HEAD
+  helm:
+    valueFiles:
+      - values.yaml
+      - setup-values.yaml
+      - argocd-configmap.yaml
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: argocd
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
