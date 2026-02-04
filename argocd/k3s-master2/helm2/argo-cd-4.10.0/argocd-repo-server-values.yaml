@@ -8,6 +8,24 @@ repoServer:
     volumeMounts:
       - name: custom-tools # <-- this must match an existing volume in ArgoCD chart
         mountPath: /custom-tools
+  extraContainers:
+  - name: jsonnet-helm-plugin
+    image: quay.io/argoproj/argocd:v2.9.3
+    command: [ "/var/run/argocd/argocd-cmp-server" ]
+    env:
+      - name: PATH
+        value: "/custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    volumeMounts:
+      - name: var-files
+        mountPath: /var/run/argocd
+      - name: plugins
+        mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm
+      - name: plugins-with-crds
+        mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm-with-crds
+      - name: tmp
+        mountPath: /tmp
+      - name: custom-tools
+        mountPath: /custom-tools
   volumes:
   - name: custom-tools
     emptyDir: {}
