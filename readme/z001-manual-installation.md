@@ -28,14 +28,15 @@ helm upgrade --install argocd argo/argo-cd \
   --set notifications.enabled=false \
   --set applicationSet.enabled=true \
   --set server.ingress.enabled=true \
-  --set server.ingress.hostname="argocd-master.k8s.lab" \
+  --set server.ingress.hosts[0]="argocd-master.k8s.lab" \
   --set server.ingress.ingressClassName=nginx \
   --set global.domain=k8s.lab \
+  --set hostname=argocd-master.k8s.lab \
   --set server.extraArgs={--insecure} \
   --set server.insecure=true \
   --set server.ingress.annotations."nginx\.ingress\.kubernetes\.io/backend-protocol"="HTTP" \
   --set configs.secret.argocdServerAdminPassword='$2b$12$3peDOQrx3EVLpfCJ.lRQQOSVNBiyjbJ0ofT79qrsdJvU9eTBG.mFm' \
-  --set configs.secret.argocdServerAdminPasswordMtime="$(date +%FT%T%Z)" \
+  --set configs.secret.argocdServerAdminPasswordMtime="$(date +%FT%T%Z)" 
 
 #argocdServerAdmin=admin
 #argocdServerAdminPassword=YourSecurePassword

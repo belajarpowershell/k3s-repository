@@ -6,19 +6,31 @@ repoServer:
   - name: PATH
     value: "/custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-  volumes:
+  extraVolumes:
   - name: custom-tools
     emptyDir: {}
+
   - name: plugins
-    emptyDir: {}
+    configMap:
+      name: jsonnet-helm
+
+  - name: plugins-with-crds
+    configMap:
+      name: jsonnet-helm-with-crds
+
   - name: tmp
     emptyDir: {}
 
-  volumeMounts:
+  extraVolumeMounts:
   - name: custom-tools
     mountPath: /custom-tools
+
   - name: plugins
-    mountPath: /home/argocd/cmp-server/plugins
+    mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm
+
+  - name: plugins-with-crds
+    mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm-with-crds
+
   - name: tmp
     mountPath: /tmp
 
@@ -31,12 +43,10 @@ repoServer:
       set -eux
       apk add --no-cache curl tar gzip
 
-      # jsonnet
       curl -L https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz \
         | tar -xz
       mv jsonnet /custom-tools/
-
-      chmod +x /custom-tools/*
+      chmod +x /custom-tools/jsonnet
     volumeMounts:
     - name: custom-tools
       mountPath: /custom-tools
@@ -51,57 +61,15 @@ repoServer:
     volumeMounts:
     - name: var-files
       mountPath: /var/run/argocd
+
     - name: plugins
-      mountPath: /home/argocd/cmp-server/plugins
+      mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm
+
+    - name: plugins-with-crds
+      mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm-with-crds
+
     - name: tmp
       mountPath: /tmp
+
     - name: custom-tools
       mountPath: /custom-tools
-
-# # =========================
-# # Config Management Plugins
-# # =========================
-# extraObjects:
-# - apiVersion: argoproj.io/v1alpha1
-#   kind: ConfigManagementPlugin
-#   metadata:
-#     name: jsonnet-helm
-#   spec:
-#     version: v1.0
-#     init:
-#       command: [ "/bin/sh", "-c" ]
-#       args:
-#       - >
-#         mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -d './templates' ] && jsonnet ./templates/_templates.jsonnet > ./templates/templates.yaml || exit 0
-#     generate:
-#       command: [ "/bin/sh", "-c" ]
-#       args:
-#       - >
-#         helm template $ARGOCD_APP_NAME . --api-versions monitoring.coreos.com/v1 --api-versions networking.k8s.io/v1/Ingress --namespace $ARGOCD_APP_NAMESPACE
-#     discover:
-#       find:
-#         command: [ sh, -c, 'if [ "$ARGOCD_ENV_PLUGIN" = "jsonnet-helm" ]; then echo Hi; fi' ]
-
-# - apiVersion: argoproj.io/v1alpha1
-#   kind: ConfigManagementPlugin
-#   metadata:
-#     name: jsonnet-helm-with-crds
-#   spec:
-#     version: v1.0
-#     init:
-#       command: [ "/bin/sh", "-c" ]
-#       args:
-#       - >
-#         mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -f './templates/_templates.jsonnet' ] && jsonnet ./templates/_templates.jsonnet > ./templates/templates.yaml || exit 0
-#     generate:
-#       command: [ "/bin/sh", "-c" ]
-#       args:
-#       - >
-#         helm template $ARGOCD_APP_NAME . --api-versions monitoring.coreos.com/v1 --api-versions networking.k8s.io/v1/Ingress --namespace $ARGOCD_APP_NAMESPACE --include-crds
-#     discover:
-#       find:
-#         command:
-#         - sh
-#         - -c
-#         - |
-#           if [ "$ARGOCD_ENV_PLUGIN" = "jsonnet-helm-with-crds" ]; then echo Hi; fi
