@@ -1,16 +1,11 @@
 repoServer:
-  extraInitContainers:
+  initContainers:
   - name: download-tools
     image: alpine:3.18
     command: [ "sh", "-c" ]
-    args:
-    - |
-      set -eux
-      apk add --no-cache curl tar gzip
-      curl -L https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz \
-        | tar -xz
-      mv jsonnet /custom-tools/
-      chmod +x /custom-tools/jsonnet
+    "args": [
+       "wget -qO- https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz | tar -xvzf - && mv jsonnet /custom-tools/"
+    ],
     volumeMounts:
     - name: custom-tools # <-- this must match an existing volume in ArgoCD chart
       mountPath: /custom-tools
