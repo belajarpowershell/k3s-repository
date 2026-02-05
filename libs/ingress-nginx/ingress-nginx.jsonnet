@@ -8,7 +8,7 @@ local application = function(config){  // Accept config as a parameter
   },
   spec: {
     destination: {
-      server: config.clusterName + ":6443",  // Use the passed config
+      server: config.clusterName,  // Use the passed config
       namespace: "ingress-nginx",
     },
     project: "default",
@@ -17,13 +17,13 @@ local application = function(config){  // Accept config as a parameter
       repoURL: "https://kubernetes.github.io/ingress-nginx",
       targetRevision: "4.10.0",
     },
-    // syncPolicy: {
-    //   automated: {
-    //     prune: true,
-    //     selfHeal: true,
-    //   },
-    //   syncOptions: ["CreateNamespace=true"],
-    // },
+     syncPolicy: {
+      automated: {
+        prune: true,
+        selfHeal: true,
+      },
+       syncOptions: ["CreateNamespace=true"],
+     },
   },
 };
 

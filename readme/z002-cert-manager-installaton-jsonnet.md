@@ -1,4 +1,4 @@
-# Default applications for cluster
+# Cert-manager with `jsonnet-helm-with-crds`
 
 when setting up a cluster , there will be default applications that will be required. This can be packaged in `clusters/default-apps.jsonnet`
 
@@ -44,5 +44,13 @@ spec:
       recurse: true
       jsonnet: {}
   project: default
-
+  syncPolicy:
+    #automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  sourceRef:
+    plugin:
+      name: jsonnet-helm-with-crds
 ```
