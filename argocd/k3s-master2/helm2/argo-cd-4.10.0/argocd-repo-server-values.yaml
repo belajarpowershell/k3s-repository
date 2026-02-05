@@ -16,20 +16,49 @@ repoServer:
     - name: jsonnet-helm-with-crds-plugin
       mountPath: /home/argocd/cmp-server/config/jsonnet-helm-with-crds.yaml
       subPath: plugin.yaml
+  # initContainers:
+  #   - name: install-jsonnet-helm
+  #     image: alpine:3.19
+  #     command: ["/bin/sh", "-c"]
+  #     args:
+  #       - |
+  #         set -e
+  #         wget -qO- https://github.com/google/jsonnet/releases/download/v0.20.0/jsonnet-bin-v0.20.0-linux.tar.gz | tar -xz
+  #         wget -qO- https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz | tar -xz
+  #         mv jsonnet /custom-tools/
+  #         mv linux-amd64/helm /custom-tools/
+  #     volumeMounts:
+  #       - name: custom-tools
+  #         mountPath: /custom-tools
+  env:
+    - name: PATH
+      value: /custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+
+###
   initContainers:
     - name: install-jsonnet-helm
       image: alpine:3.19
       command: ["/bin/sh", "-c"]
       args:
         - |
-          set -e
-          wget -qO- https://github.com/google/jsonnet/releases/download/v0.20.0/jsonnet-bin-v0.20.0-linux.tar.gz | tar -xz
-          wget -qO- https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz | tar -xz
+          set -ex
+
+          mkdir -p /custom-tools /tmp/tools
+          cd /tmp/tools
+
+          # Install jsonnet
+          wget -qO- https://github.com/google/jsonnet/releases/download/v0.20.0/jsonnet-bin-v0.20.0-linux.tar.gz \
+            | tar -xz
           mv jsonnet /custom-tools/
+          mv jsonnetfmt /custom-tools/ || true
+
+          # Install helm
+          wget -qO- https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz \
+            | tar -xz
           mv linux-amd64/helm /custom-tools/
+
+          chmod +x /custom-tools/*
       volumeMounts:
         - name: custom-tools
           mountPath: /custom-tools
-  env:
-    - name: PATH
-      value: /custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
