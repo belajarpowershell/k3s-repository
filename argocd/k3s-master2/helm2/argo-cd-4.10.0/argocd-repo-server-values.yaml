@@ -1,56 +1,40 @@
 repoServer:
-  initContainers:
-  - name: download-tools
-    image: alpine:3.18
-    command: [ "sh", "-c" ]
-    args:
-      - wget -qO- https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz | tar -xvzf - && mv jsonnet /custom-tools/
-    volumeMounts:
-      - name: custom-tools # <-- this must match an existing volume in ArgoCD chart
-        mountPath: /custom-tools
-#   extraContainers:
-#   - name: jsonnet-helm-plugin
-#     image: quay.io/argoproj/argocd:v2.9.3
-#     command: [ "/var/run/argocd/argocd-cmp-server" ]
-#     # env:
-#     #   - name: PATH
-#     #     value: "/custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-#     volumeMounts:
-#       - name: var-files
-#         mountPath: /var/run/argocd
-#       - name: plugins
-#         mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm
-#       - name: plugins-with-crds
-#         mountPath: /home/argocd/cmp-server/plugins/jsonnet-helm-with-crds
-#       - name: tmp
-#         mountPath: /tmp
-#       - name: custom-tools
-#         mountPath: /custom-tools
   volumes:
     - name: custom-tools
       emptyDir: {}
-#   - name: tmp
-#     emptyDir: {}
-#   env:
-#     - name: PATH
-#       value: /custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# #repoServer:
-#   volumes:
-#     - name: jsonnet-helm-plugin
-#       configMap:
-#         name: jsonnet-helm
+    - name: jsonnet-helm-plugin
+      configMap:
+        name: jsonnet-helm
 
-#     - name: jsonnet-helm-with-crds-plugin
-#       configMap:
-#         name: jsonnet-helm-with-crds
+    - name: jsonnet-helm-with-crds-plugin
+      configMap:
+        name: jsonnet-helm-with-crds
 
-#   volumeMounts:
-#     - name: jsonnet-helm-plugin
-#       mountPath: /home/argocd/cmp-server/config/jsonnet-helm.yaml
-#       subPath: plugin.yaml
+  volumeMounts:
+    - name: jsonnet-helm-plugin
+      mountPath: /home/argocd/cmp-server/config/jsonnet-helm.yaml
+      subPath: plugin.yaml
 
-#     - name: jsonnet-helm-with-crds-plugin
-#       mountPath: /home/argocd/cmp-server/config/jsonnet-helm-with-crds.yaml
-#       subPath: plugin.yaml
+    - name: jsonnet-helm-with-crds-plugin
+      mountPath: /home/argocd/cmp-server/config/jsonnet-helm-with-crds.yaml
+      subPath: plugin.yaml
 
+  initContainers:
+    - name: install-jsonnet-helm
+      image: alpine:3.19
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          set -e
+          wget -qO- https://github.com/google/jsonnet/releases/download/v0.20.0/jsonnet-bin-v0.20.0-linux.tar.gz | tar -xz
+          wget -qO- https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz | tar -xz
+          mv jsonnet /custom-tools/
+          mv linux-amd64/helm /custom-tools/
+      volumeMounts:
+        - name: custom-tools
+          mountPath: /custom-tools
+
+  env:
+    - name: PATH
+      value: /custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
