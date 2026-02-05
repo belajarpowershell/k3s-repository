@@ -1,17 +1,19 @@
 # Manual instatllation.
 
+Install in sequence
+
 ## Ingress
 
 ```
 
-kubectl create namespace ingress-nginx
-
 helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --version 4.10.0 -n ingress-nginx --create-namespace --set controller.extraArgs.enable-ssl-passthrough=true 
 
-#remove
+```
+
+## remove
+
+```
 helm uninstall ingress-nginx -n ingress-nginx
-
-
 
 ```
 
@@ -38,11 +40,11 @@ helm upgrade --install argocd argo/argo-cd \
   --set server.ingress.annotations."nginx\.ingress\.kubernetes\.io/backend-protocol"="HTTP" \
   --set configs.secret.argocdServerAdminPassword='$2b$12$3peDOQrx3EVLpfCJ.lRQQOSVNBiyjbJ0ofT79qrsdJvU9eTBG.mFm' \
   --set configs.secret.argocdServerAdminPasswordMtime="$(date +%FT%T%Z)" 
-
+```
 #argocdServerAdmin=admin
 #argocdServerAdminPassword=YourSecurePassword
 
-
+```
 helm uninstall argocd -n argocd
 
 ```
@@ -76,3 +78,18 @@ destination:
   server: 'https://kubernetes.default.svc'
   namespace: argocd
 ---
+
+`values.yaml`
+- default helm values without changes
+
+`setup-values.yaml`
+
+- first time setup values to enable the required features for ArgoCD to function.
+
+`argocd-configmap.yaml`
+
+- the configmap for jsonnet-helm plugins.
+
+`argocd-repo-server-values.yaml`
+
+- the `repo-server` configuration to enable plugins in ArgoCD.
