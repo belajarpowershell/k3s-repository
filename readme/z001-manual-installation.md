@@ -58,22 +58,9 @@ https://argocd-master.k8s.lab/
 ```
 
 ```
-```
-helm upgrade --install argocd argo/argo-cd \
-  --version 4.10.0 \
-  --namespace argocd \
-  -f plugins/values-base.yaml \
 
-
-helm upgrade --install argocd argo/argo-cd \
-  -n argocd \
-  --version 4.10.0 \
-  argocd-configmap.yaml
-  -f argocd-repo-server-values.yaml
-
-```
-
-
+ARGOCD project manifest
+---
 project: default
 source:
   repoURL: 'https://github.com/belajarpowershell/k3s-repository'
@@ -84,10 +71,8 @@ source:
       - values.yaml
       - setup-values.yaml
       - argocd-configmap.yaml
+      - argocd-repo-server-values.yaml
 destination:
   server: 'https://kubernetes.default.svc'
   namespace: argocd
-syncPolicy:
-  automated:
-    prune: true
-    selfHeal: true
+---
