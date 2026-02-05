@@ -68,6 +68,7 @@ helm upgrade --install argocd argo/argo-cd \
 helm upgrade --install argocd argo/argo-cd \
   -n argocd \
   --version 4.10.0 \
+  argocd-configmap.yaml
   -f argocd-repo-server-values.yaml
 
 ```

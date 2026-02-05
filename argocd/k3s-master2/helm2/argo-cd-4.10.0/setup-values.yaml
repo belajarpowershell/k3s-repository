@@ -29,3 +29,5 @@ configs:
   secret:
     argocdServerAdminPassword: '$2b$12$3peDOQrx3EVLpfCJ.lRQQOSVNBiyjbJ0ofT79qrsdJvU9eTBG.mFm'
     argocdServerAdminPasswordMtime: "{{ .Release.Time }}"
+  cm:
+    exec.enabled: "true"
