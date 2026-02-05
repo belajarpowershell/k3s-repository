@@ -21,12 +21,7 @@ repoServer:
       image: alpine:3.19
       command: ["sh", "-c"]
       args:
-        - |
-          set -e
-          wget -qO- https://github.com/google/jsonnet/releases/download/v0.20.0/jsonnet-bin-v0.20.0-linux.tar.gz | tar -xz
-          wget -qO- https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz | tar -xz
-          mv jsonnet /custom-tools/
-          mv linux-amd64/helm /custom-tools/
+        - wget -qO- https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz | tar -xvzf - && mv jsonnet /custom-tools/
       volumeMounts:
         - name: custom-tools
           mountPath: /custom-tools
