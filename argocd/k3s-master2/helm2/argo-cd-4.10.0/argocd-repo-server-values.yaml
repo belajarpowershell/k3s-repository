@@ -10,6 +10,8 @@ repoServer:
       configMap:
         name: jsonnet-helm-with-crds
   volumeMounts:
+    - name: custom-tools          # <-- add this
+      mountPath: /custom-tools    # <-- same as initContainer so jsonnet is visible in repo-server container
     - name: jsonnet-helm-plugin
       mountPath: /home/argocd/cmp-server/config/jsonnet-helm.yaml
       subPath: plugin.yaml
@@ -23,7 +25,7 @@ repoServer:
       args:
         - wget -qO- https://github.com/google/jsonnet/releases/download/v0.17.0/jsonnet-bin-v0.17.0-linux.tar.gz | tar -xvzf - && mv jsonnet /custom-tools/
       volumeMounts:
-        - name: custom-tools
+        - name: custom-tools      # <- this volume is in initContainer
           mountPath: /custom-tools
   env:
     - name: PATH
