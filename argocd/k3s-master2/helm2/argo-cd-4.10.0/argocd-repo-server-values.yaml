@@ -26,9 +26,9 @@ repoServer:
 #         mountPath: /tmp
 #       - name: custom-tools
 #         mountPath: /custom-tools
-#   volumes:
-#   - name: custom-tools
-#     emptyDir: {}
+  volumes:
+  - name: custom-tools
+    emptyDir: {}
 #   - name: tmp
 #     emptyDir: {}
 #   env:
