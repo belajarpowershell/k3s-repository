@@ -1,40 +1,53 @@
 repoServer:
-  volumes:
-    - name: custom-tools
-      emptyDir: {}
+  # volumes:
+  #   - name: custom-tools
+  #     emptyDir: {}
+    # - name: jsonnet-helm-plugin
+    #   configMap:
+    #     name: jsonnet-helm
+    # - name: jsonnet-helm-with-crds-plugin
+    #   configMap:
+    #     name: jsonnet-helm-with-crds
+  # volumeMounts:
+  #   - name: jsonnet-helm-plugin
+  #     mountPath: /home/argocd/cmp-server/config/jsonnet-helm.yaml
+  #     subPath: plugin.yaml
 
-    - name: jsonnet-helm-plugin
-      configMap:
-        name: jsonnet-helm
+  #   - name: jsonnet-helm-with-crds-plugin
+  #     mountPath: /home/argocd/cmp-server/config/jsonnet-helm-with-crds.yaml
+  #     subPath: plugin.yaml
 
-    - name: jsonnet-helm-with-crds-plugin
-      configMap:
-        name: jsonnet-helm-with-crds
+  # # initContainers:
+  #   - name: install-jsonnet-helm
+  #     image: alpine:3.19
+  #     command: ["/bin/sh", "-c"]
+  #     args:
+  #       - |
+  #         set -e
+  #         wget -qO- https://github.com/google/jsonnet/releases/download/v0.20.0/jsonnet-bin-v0.20.0-linux.tar.gz | tar -xz
+  #         wget -qO- https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz | tar -xz
+  #         mv jsonnet /custom-tools/
+  #         mv linux-amd64/helm /custom-tools/
+  #     volumeMounts:
+  #       - name: custom-tools
+  #         mountPath: /custom-tools
 
-  volumeMounts:
-    - name: jsonnet-helm-plugin
-      mountPath: /home/argocd/cmp-server/config/jsonnet-helm.yaml
-      subPath: plugin.yaml
-
-    - name: jsonnet-helm-with-crds-plugin
-      mountPath: /home/argocd/cmp-server/config/jsonnet-helm-with-crds.yaml
-      subPath: plugin.yaml
-
-  initContainers:
-    - name: install-jsonnet-helm
-      image: alpine:3.19
-      command: ["/bin/sh", "-c"]
-      args:
-        - |
-          set -e
-          wget -qO- https://github.com/google/jsonnet/releases/download/v0.20.0/jsonnet-bin-v0.20.0-linux.tar.gz | tar -xz
-          wget -qO- https://get.helm.sh/helm-v3.14.4-linux-amd64.tar.gz | tar -xz
-          mv jsonnet /custom-tools/
-          mv linux-amd64/helm /custom-tools/
-      volumeMounts:
-        - name: custom-tools
-          mountPath: /custom-tools
-
-  env:
-    - name: PATH
-      value: /custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  # env:
+  #   - name: PATH
+  #     value: /custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+  initContainers: []
+   - name: download-tools
+     image: alpine:3.8
+     command: [sh, -c]
+     args:
+       - wget -qO- https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz | tar -xvzf - &&
+         mv linux-amd64/helm /custom-tools/
+     volumeMounts:
+       - mountPath: /custom-tools
+         name: custom-tools
+  volumes: 
+  # Use init containers to configure custom tooling
+  # https://argo-cd.readthedocs.io/en/stable/operator-manual/custom_tools/
+  # When using the volumes & volumeMounts section bellow, please comment out those above.
+   - name: custom-tools
+     emptyDir: {}
