@@ -12,7 +12,7 @@ local argoappname =  if config.clustertype == "aks"
   },
   spec: {
     destination: {
-      server: config.clusterName + ":6443",  // Use the passed config
+      server: config.clusterName ,  // Use the passed config
       namespace: "cert-manager",
     },
     project: "default",

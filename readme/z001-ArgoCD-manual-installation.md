@@ -62,7 +62,7 @@ https://argocd-master.k8s.lab/
 ```
 
 ARGOCD project manifest
----
+<!-- ---
 project: default
 source:
   repoURL: 'https://github.com/belajarpowershell/k3s-repository'
@@ -77,7 +77,25 @@ source:
 destination:
   server: 'https://kubernetes.default.svc'
   namespace: argocd
----
+--- -->
+
+```
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 'argocd'
+spec:
+  destination:
+    name: 'argocd'
+    namespace: argocd
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: 'argocd/k3s-master/helm/argo-cd-4.10.0'
+    repoURL: 'https://github.com/belajarpowershell/k3s-repository'
+    targetRevision: HEAD
+  project: 'default'
+
+```
 
 `values.yaml`
 - default helm values without changes
