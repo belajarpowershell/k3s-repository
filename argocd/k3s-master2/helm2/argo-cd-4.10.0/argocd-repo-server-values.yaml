@@ -1,4 +1,5 @@
 repoServer:
+  name: repo-server
   volumes:
     - name: custom-tools
       emptyDir: {}
