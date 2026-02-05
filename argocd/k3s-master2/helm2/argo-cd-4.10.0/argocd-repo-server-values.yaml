@@ -1,7 +1,7 @@
 ## Repo Server
 repoServer:
-  # # -- Repo server name
-  # name: repo-server
+  # -- Repo server name
+  name: repo-server
 
   # # -- Additional volumeMounts to the repo server main container
   # volumeMounts: []
