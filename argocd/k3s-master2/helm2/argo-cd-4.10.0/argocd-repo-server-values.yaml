@@ -27,30 +27,30 @@ repoServer:
 #       - name: custom-tools
 #         mountPath: /custom-tools
   volumes:
-  - name: custom-tools
-    emptyDir: {}
+    - name: custom-tools
+      emptyDir: {}
 #   - name: tmp
 #     emptyDir: {}
 #   env:
 #     - name: PATH
 #       value: /custom-tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-#repoServer:
-  volumes:
-    - name: jsonnet-helm-plugin
-      configMap:
-        name: jsonnet-helm
+# #repoServer:
+#   volumes:
+#     - name: jsonnet-helm-plugin
+#       configMap:
+#         name: jsonnet-helm
 
-    - name: jsonnet-helm-with-crds-plugin
-      configMap:
-        name: jsonnet-helm-with-crds
+#     - name: jsonnet-helm-with-crds-plugin
+#       configMap:
+#         name: jsonnet-helm-with-crds
 
-  volumeMounts:
-    - name: jsonnet-helm-plugin
-      mountPath: /home/argocd/cmp-server/config/jsonnet-helm.yaml
-      subPath: plugin.yaml
+#   volumeMounts:
+#     - name: jsonnet-helm-plugin
+#       mountPath: /home/argocd/cmp-server/config/jsonnet-helm.yaml
+#       subPath: plugin.yaml
 
-    - name: jsonnet-helm-with-crds-plugin
-      mountPath: /home/argocd/cmp-server/config/jsonnet-helm-with-crds.yaml
-      subPath: plugin.yaml
+#     - name: jsonnet-helm-with-crds-plugin
+#       mountPath: /home/argocd/cmp-server/config/jsonnet-helm-with-crds.yaml
+#       subPath: plugin.yaml
 
