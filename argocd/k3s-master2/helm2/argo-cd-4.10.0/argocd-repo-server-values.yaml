@@ -1,93 +1,93 @@
 ## Repo Server
 repoServer:
-  # -- Repo server name
-  name: repo-server
+  # # -- Repo server name
+  # name: repo-server
 
-  # -- Additional volumeMounts to the repo server main container
-  volumeMounts: []
+  # # -- Additional volumeMounts to the repo server main container
+  # volumeMounts: []
 
-  # -- Additional volumes to the repo server pod
-  volumes: []
-  ## Use init containers to configure custom tooling
-  ## https://argo-cd.readthedocs.io/en/stable/operator-manual/custom_tools/
-  ## When using the volumes & volumeMounts section bellow, please comment out those above.
-  #  - name: custom-tools
-  #    emptyDir: {}
-
-
-  # -- Additional containers to be added to the repo server pod
-  extraContainers: []
-
-  # Init container to copy argocd binary
-  copyutil:
-    # -- Resource limits and requests for the copyutil initContainer
-    resources: {}
-    #  limits:
-    #    cpu: 50m
-    #    memory: 64Mi
-    #  requests:
-    #    cpu: 10m
-    #    memory: 32Mi
-
-  # -- Init containers to add to the repo server pods
-  initContainers: []
-   - name: download-tools
-     image: alpine:3.8
-     command: [sh, -c]
-     args:
-       - wget -qO- https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz | tar -xvzf - &&
-         mv linux-amd64/helm /custom-tools/
-     volumeMounts:
-       - mountPath: /custom-tools
-         name: custom-tools
-  #  volumeMounts:
-  #  - mountPath: /usr/local/bin/helm
-  #    name: custom-tools
-  #    subPath: helm
+  # # -- Additional volumes to the repo server pod
+  # volumes: []
+  # ## Use init containers to configure custom tooling
+  # ## https://argo-cd.readthedocs.io/en/stable/operator-manual/custom_tools/
+  # ## When using the volumes & volumeMounts section bellow, please comment out those above.
+  # #  - name: custom-tools
+  # #    emptyDir: {}
 
 
-  # -- Additional containers to be added to the applicationset controller pod
-  extraContainers: []
+  # # -- Additional containers to be added to the repo server pod
+  # extraContainers: []
 
-  extraVolumeMounts: []
-    # - mountPath: /tmp/foobar
-    #   name: foobar
+  # # Init container to copy argocd binary
+  # copyutil:
+  #   # -- Resource limits and requests for the copyutil initContainer
+  #   resources: {}
+  #   #  limits:
+  #   #    cpu: 50m
+  #   #    memory: 64Mi
+  #   #  requests:
+  #   #    cpu: 10m
+  #   #    memory: 32Mi
 
-  # -- List of extra volumes to add
-  extraVolumes: []
-    # - name: foobar
-    #   emptyDir: {}
+  # # -- Init containers to add to the repo server pods
+  # initContainers: []
+  #  - name: download-tools
+  #    image: alpine:3.8
+  #    command: [sh, -c]
+  #    args:
+  #      - wget -qO- https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz | tar -xvzf - &&
+  #        mv linux-amd64/helm /custom-tools/
+  #    volumeMounts:
+  #      - mountPath: /custom-tools
+  #        name: custom-tools
+  # #  volumeMounts:
+  # #  - mountPath: /usr/local/bin/helm
+  # #    name: custom-tools
+  # #    subPath: helm
 
-  # -- List of extra cli args to add
-  extraArgs: []
-    # - --loglevel=warn
 
-  # -- Environment variables to pass to the controller
-  extraEnv: []
-    # - name: "MY_VAR"
-    #   value: "value"
+  # # -- Additional containers to be added to the applicationset controller pod
+  # extraContainers: []
 
-  # -- envFrom to pass to the controller
-  # @default -- `[]` (See [values.yaml])
-  extraEnvFrom: []
-    # - configMapRef:
-    #     name: config-map-name
-    # - secretRef:
-    #     name: secret-name
+  # extraVolumeMounts: []
+  #   # - mountPath: /tmp/foobar
+  #   #   name: foobar
 
-  # -- Extra arguments to provide to the controller
-  extraArgs: []
+  # # -- List of extra volumes to add
+  # extraVolumes: []
+  #   # - name: foobar
+  #   #   emptyDir: {}
 
-  # -- Additional container environment variables
-  extraEnv: []
+  # # -- List of extra cli args to add
+  # extraArgs: []
+  #   # - --loglevel=warn
 
-  # -- List of extra mounts to add (normally used with extraVolumes)
-  extraVolumeMounts: []
-    # - mountPath: /tmp/foobar
-    #   name: foobar
+  # # -- Environment variables to pass to the controller
+  # extraEnv: []
+  #   # - name: "MY_VAR"
+  #   #   value: "value"
 
-  # -- List of extra volumes to add
-  extraVolumes: []
-    # - name: foobar
-    #   emptyDir: {}
+  # # -- envFrom to pass to the controller
+  # # @default -- `[]` (See [values.yaml])
+  # extraEnvFrom: []
+  #   # - configMapRef:
+  #   #     name: config-map-name
+  #   # - secretRef:
+  #   #     name: secret-name
+
+  # # -- Extra arguments to provide to the controller
+  # extraArgs: []
+
+  # # -- Additional container environment variables
+  # extraEnv: []
+
+  # # -- List of extra mounts to add (normally used with extraVolumes)
+  # extraVolumeMounts: []
+  #   # - mountPath: /tmp/foobar
+  #   #   name: foobar
+
+  # # -- List of extra volumes to add
+  # extraVolumes: []
+  #   # - name: foobar
+  #   #   emptyDir: {}
 
