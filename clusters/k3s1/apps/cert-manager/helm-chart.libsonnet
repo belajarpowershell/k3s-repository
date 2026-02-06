@@ -1,0 +1,9 @@
+
+// Import cluster settings
+local config = import "../../cluster.jsonnet";  // Define config
+
+// Import the cert-manager template and pass config
+local certManagerApp = import "../../../../libs/cert-manager/cert-manager.jsonnet";
+
+certManagerApp(config)  // Call the function with config
+

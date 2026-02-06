@@ -15,7 +15,7 @@ spec:
     directory:
       recurse: true # Ensure all Jsonnet files are processed
   destination:
-    server: https://kubernetes.default.svc
+    server: https://k3s-01.k8s.lab:6443
     namespace: argocd
   # syncPolicy:
   #   automated:

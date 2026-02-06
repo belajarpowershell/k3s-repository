@@ -1,6 +1,6 @@
 {
-  clusterName: "k3s1.k8s.lab",
-  argocdapplicationprefix: "k3s1",
+  clusterName: "k3s-01.k8s.lab",
+  argocdapplicationprefix: "k3s-01",
   projects: [
     {
       name: "project-demo1",
