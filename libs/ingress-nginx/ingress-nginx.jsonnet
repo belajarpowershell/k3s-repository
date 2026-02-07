@@ -3,7 +3,7 @@ local application = function(config){  // Accept config as a parameter
   apiVersion: "argoproj.io/v1alpha1",
   kind: "Application",
   metadata: {
-    name: config.argocdapplicationprefix +"-" +"ingress-nginx",
+    name: "ingress-nginx",
     namespace: "argocd",
   },
   spec: {
