@@ -1,3 +1,11 @@
+##
+
+    .libsonnet = Jsonnet library files (meant to be imported, not evaluated)
+    .jsonnet = Jsonnet files that produce output (meant to be evaluated)
+
+
+
+
 clusters
   -k3s-master
     - apps.jsonnet # generates argocd application manifest - add app to argocd

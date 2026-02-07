@@ -52,5 +52,11 @@ spec:
       - CreateNamespace=true
   sourceRef:
     plugin:
-      name: jsonnet-helm-with-crds
+      name: jsonnet-helm-with-crds-plugin
 ```
+
+
+spec:
+  source:
+    plugin:
+      name: jsonnet-helm-with-crds-plugin >> must match configmap name

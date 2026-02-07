@@ -66,7 +66,7 @@ ARGOCD project manifest
 project: default
 source:
   repoURL: 'https://github.com/belajarpowershell/k3s-repository'
-  path: argocd/k3s-master2/helm2/argo-cd-4.10.0
+  path: argocd/k3s-master/helm/argo-cd-4.10.0
   targetRevision: HEAD
   helm:
     valueFiles:
@@ -93,6 +93,12 @@ spec:
     path: 'argocd/k3s-master/helm/argo-cd-4.10.0'
     repoURL: 'https://github.com/belajarpowershell/k3s-repository'
     targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+        - setup-values.yaml
+        - argocd-configmap.yaml
+        - argocd-repo-server-values.yaml
   project: 'default'
 
 ```

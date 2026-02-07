@@ -2,16 +2,16 @@ extraObjects:
 - apiVersion: v1
   kind: ConfigMap
   metadata:
-    name: jsonnet-helm
+    name: jsonnet-helm-plugin
     labels:
-      name: jsonnet-helm
+      name: jsonnet-helm-plugin
     annotations: {}
   data:
     plugin.yaml: |
       apiVersion: argoproj.io/v1alpha1
       kind: ConfigManagementPlugin
       metadata:
-        name: jsonnet-helm
+        name: jsonnet-helm-plugin
       spec:
         version: v1.0
         init:
@@ -22,21 +22,21 @@ extraObjects:
           args: ["helm template $ARGOCD_APP_NAME . --api-versions monitoring.coreos.com/v1 --api-versions networking.k8s.io/v1/Ingress --namespace $ARGOCD_APP_NAMESPACE"]
         discover:
           find:
-            command: [sh, -c, 'if [ "$ARGOCD_ENV_PLUGIN" = "jsonnet-helm" ]; then echo Hi; fi' ]
+            command: [sh, -c, 'if [ "$ARGOCD_ENV_PLUGIN" = "jsonnet-helm-plugin" ]; then echo Hi; fi' ]
 
 - apiVersion: v1
   kind: ConfigMap
   metadata:
-    name: jsonnet-helm-with-crds
+    name: jsonnet-helm-with-crds-plugin
     labels:
-      name: jsonnet-helm-with-crds
+      name: jsonnet-helm-with-crds-plugin
     annotations: {}
   data:
     plugin.yaml: |
       apiVersion: argoproj.io/v1alpha1
       kind: ConfigManagementPlugin
       metadata:
-        name: jsonnet-helm-with-crds
+        name: jsonnet-helm-with-crds-plugin
       spec:
         version: v1.0
         init:
@@ -47,4 +47,4 @@ extraObjects:
           args: [ "helm template $ARGOCD_APP_NAME . --api-versions monitoring.coreos.com/v1 --api-versions networking.k8s.io/v1/Ingress --namespace $ARGOCD_APP_NAMESPACE --include-crds" ]
         discover:
           find:
-            command: [ sh, -c, "if [ \"$ARGOCD_ENV_PLUGIN\" = \"jsonnet-helm-with-crds\" ]; then echo Hi; fi" ]
+            command: [ sh, -c, "if [ \"$ARGOCD_ENV_PLUGIN\" = \"jsonnet-helm-with-crds-plugin\" ]; then echo Hi; fi" ]
