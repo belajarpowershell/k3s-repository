@@ -1,7 +1,7 @@
 
 {
-  name: "webapp",
-  namespace: "default",
+  name: "webapp-jsonnet",
+  namespace: "webapp-jsonnet",
 
   image: "nginx:1.25",
   replicas: 1,
