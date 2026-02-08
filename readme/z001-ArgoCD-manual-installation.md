@@ -1,28 +1,46 @@
-# Manual instatllation.
+# Manual instatllation
 
 Install in sequence
 
 ## Ingress
 
-```
+```bash
 
 helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --version 4.10.0 -n ingress-nginx --create-namespace --set controller.extraArgs.enable-ssl-passthrough=true 
 
 ```
 
-## remove
+Manual apply via kubectl
+
+create namespace first
+
+```bash
+k create ns ingress-nginx
+```
+
+```bash
+
+~/k3s-repository/clusters/k3s-master/ingress-nginx/helm
+
+jsonnet helm-chart.jsonnet | kubectl apply -f -
 
 ```
+
+## remove
+
+```bash
 helm uninstall ingress-nginx -n ingress-nginx
 
 ```
 
-##  ARGOCD 
+## ARGOCD
 
+```bash
 helm repo add argo https://argoproj.github.io/argo-helm
 helm repo update
-
 ```
+
+```bash
 helm upgrade --install argocd argo/argo-cd \
   --version 4.10.0 \
   --namespace argocd --create-namespace \
@@ -41,27 +59,27 @@ helm upgrade --install argocd argo/argo-cd \
   --set configs.secret.argocdServerAdminPassword='$2b$12$3peDOQrx3EVLpfCJ.lRQQOSVNBiyjbJ0ofT79qrsdJvU9eTBG.mFm' \
   --set configs.secret.argocdServerAdminPasswordMtime="$(date +%FT%T%Z)" 
 ```
-#argocdServerAdmin=admin
-#argocdServerAdminPassword=YourSecurePassword
 
-```
+argocdServerAdmin=admin
+argocdServerAdminPassword=YourSecurePassword
+
+```bash
 helm uninstall argocd -n argocd
 
 ```
-https://argocd-master.k8s.lab/
 
-## Install configmap 
+[argocd URL](https://argocd-master.k8s.lab/)
+
+## Install configmap
 
 ## Container setup with custom tools
+
 - helm
 - jsonnet
 -
 
-```
+### ARGOCD project manifest
 
-```
-
-ARGOCD project manifest
 <!-- ---
 project: default
 source:
@@ -79,7 +97,7 @@ destination:
   namespace: argocd
 --- -->
 
-```
+```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -104,6 +122,7 @@ spec:
 ```
 
 `values.yaml`
+
 - default helm values without changes
 
 `setup-values.yaml`
@@ -116,4 +135,4 @@ spec:
 
 `argocd-repo-server-values.yaml`
 
-- the `repo-server` configuration to enable plugins in ArgoCD.
+- the `repo-server` configuration to enable plugins in ArgoCD

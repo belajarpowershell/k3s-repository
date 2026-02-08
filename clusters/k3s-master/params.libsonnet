@@ -1,5 +1,5 @@
-local globals = import '../../libs/globals.libsonnet';
-
+local globals = import '../../../../libs/globals.libsonnet';
+(import 'cluster.libsonnet') +
 {
   name: 'k3s-master',
   domain: 'k8s.lab',

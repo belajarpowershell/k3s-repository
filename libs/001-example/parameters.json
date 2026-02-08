@@ -1,0 +1,6 @@
+
+{
+  "repository": "https://github.com/kubernetes/01-example-helm",
+  "name": "001-example",
+  "version": "4.10.0"
+}

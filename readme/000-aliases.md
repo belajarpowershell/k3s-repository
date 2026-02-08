@@ -1,4 +1,6 @@
-```
+# Aliases
+
+```bash
 alias k=kubectl
 alias kg='k get '
 alias kgp='k get pods'
@@ -36,6 +38,3 @@ source ~/.bashrc
 ```
 
 Or copy the alias block into `~/.bashrc` or `~/.zshrc` directly.
-
-
-```

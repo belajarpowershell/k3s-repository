@@ -1,6 +1,6 @@
 # Ingress-nginx `jsonnet-helm`
 
-```
+```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
