@@ -1,84 +1,84 @@
-# #!/usr/bin/env bash
-# set -euo pipefail
+#!/usr/bin/env bash
+set -euo pipefail
 
-# ############################################
-# # Config
-# ############################################
-# REPO_NAME="ingress-nginx"
-# REPO_URL="https://kubernetes.github.io/ingress-nginx"
-# CHART_NAME="ingress-nginx"
-# CHART_VERSION="4.10.0"
+############################################
+# Config
+############################################
+REPO_NAME="ingress-nginx"
+REPO_URL="https://kubernetes.github.io/ingress-nginx"
+CHART_NAME="ingress-nginx"
+CHART_VERSION="4.10.0"
 
-# REPO_ROOT="$(git rev-parse --show-toplevel)"
-# LIBS_DIR="${REPO_ROOT}/libs"
-# OUTDIR="${LIBS_DIR}/${CHART_NAME}-${CHART_VERSION}"
-# TMPDIR="$(mktemp -d)"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+LIBS_DIR="${REPO_ROOT}/libs"
+OUTDIR="${LIBS_DIR}/${CHART_NAME}-${CHART_VERSION}"
+TMPDIR="$(mktemp -d)"
 
-# ############################################
-# # Prereqs
-# ############################################
-# for cmd in helm yq jsonnetfmt git; do
-#   command -v "$cmd" >/dev/null 2>&1 || {
-#     echo "❌ Missing required tool: $cmd"
-#     exit 1
-#   }
-# done
+############################################
+# Prereqs
+############################################
+for cmd in helm yq jsonnetfmt git; do
+  command -v "$cmd" >/dev/null 2>&1 || {
+    echo "❌ Missing required tool: $cmd"
+    exit 1
+  }
+done
 
-# ############################################
-# # Helm repo setup
-# ############################################
-# echo "▶ Ensuring Helm repo exists"
-# helm repo add "$REPO_NAME" "$REPO_URL" >/dev/null 2>&1 || true
-# helm repo update >/dev/null
+############################################
+# Helm repo setup
+############################################
+echo "▶ Ensuring Helm repo exists"
+helm repo add "$REPO_NAME" "$REPO_URL" >/dev/null 2>&1 || true
+helm repo update >/dev/null
 
-# ############################################
-# # Pull chart into temp dir
-# ############################################
-# echo "▶ Pulling ${CHART_NAME}-${CHART_VERSION}"
-# helm pull "${REPO_NAME}/${CHART_NAME}" \
-#   --version "${CHART_VERSION}" \
-#   --untar \
-#   --untardir "${TMPDIR}"
+############################################
+# Pull chart into temp dir
+############################################
+echo "▶ Pulling ${CHART_NAME}-${CHART_VERSION}"
+helm pull "${REPO_NAME}/${CHART_NAME}" \
+  --version "${CHART_VERSION}" \
+  --untar \
+  --untardir "${TMPDIR}"
 
-# ############################################
-# # Move chart into libs/
-# ############################################
-# echo "▶ Installing chart into libs/"
-# rm -rf "${OUTDIR}"
-# mkdir -p "${LIBS_DIR}"
-# mv "${TMPDIR}/${CHART_NAME}" "${OUTDIR}"
+############################################
+# Move chart into libs/
+############################################
+echo "▶ Installing chart into libs/"
+rm -rf "${OUTDIR}"
+mkdir -p "${LIBS_DIR}"
+mv "${TMPDIR}/${CHART_NAME}" "${OUTDIR}"
 
-# ############################################
-# # Convert values.yaml → values.libsonnet
-# ############################################
-# cd "${OUTDIR}"
+############################################
+# Convert values.yaml → values.libsonnet
+############################################
+cd "${OUTDIR}"
 
-# echo "▶ Converting values.yaml to values.libsonnet"
-# yq -o=json values.yaml | jsonnetfmt - > values.libsonnet
+echo "▶ Converting values.yaml to values.libsonnet"
+yq -o=json values.yaml | jsonnetfmt - > values.libsonnet
 
-# ############################################
-# # Create overlay for ssl-passthrough
-# ############################################
-# cat <<'EOF' > overlay-ssl-passthrough.libsonnet
-# {
-#   controller: {
-#     extraArgs: {
-#       "enable-ssl-passthrough": "true",
-#     },
-#   },
-# }
-# EOF
+############################################
+# Create overlay for ssl-passthrough
+############################################
+cat <<'EOF' > overlay-ssl-passthrough.libsonnet
+{
+  controller: {
+    extraArgs: {
+      "enable-ssl-passthrough": "true",
+    },
+  },
+}
+EOF
 
-# ############################################
-# # Cleanup
-# ############################################
-# rm -rf "${TMPDIR}"
+############################################
+# Cleanup
+############################################
+rm -rf "${TMPDIR}"
 
-# ############################################
-# # Done
-# ############################################
-# echo "✅ Chart installed in ${OUTDIR}"
-# echo "📦 Ready for Jsonnet imports"
+############################################
+# Done
+############################################
+echo "✅ Chart installed in ${OUTDIR}"
+echo "📦 Ready for Jsonnet imports"
 
 ################# following also converts Chart.yaml
 ## But Chart.yaml is used to generate the k8s manifest for ingress-nginx

@@ -114,7 +114,7 @@ helm template $ARGOCD_APP_NAME . --api-versions monitoring.coreos.com/v1 --api-v
 ## Apply generated output using kubectl apply
 
 ```bash
-helm template argocd . --namespace argocd  --include-crds   | kubectl apply -f - #--dry-run=client
+helm template argocd . --namespace argocd  --include-crds    | kubectl apply -f -  --namespace argocd --dry-run=client
 
 
 ```

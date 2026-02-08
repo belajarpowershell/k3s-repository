@@ -31,3 +31,7 @@ configs:
     argocdServerAdminPasswordMtime: "{{ .Release.Time }}"
   cm:
     exec.enabled: "true"
+  extraArgs:
+    - --enable-cmp
+    - --loglevel
+    - debug

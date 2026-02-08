@@ -1,5 +1,9 @@
 repoServer:
   name: repo-server
+  extraArgs:
+    - --enable-cmp
+    - --loglevel
+    - debug
   volumes:
     - name: custom-tools
       emptyDir: {}

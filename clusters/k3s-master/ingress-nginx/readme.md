@@ -43,9 +43,12 @@ spec:
     path: clusters/k3s-master/ingress-nginx/helm
     repoURL: 'https://github.com/belajarpowershell/k3s-repository'
     targetRevision: HEAD
-    directory:
+    directory: ## cannot use if plugin is required
       recurse: true
       jsonnet: {}
+    plugin:
+      name: jsonnet-helm-with-crds-plugin
+
   project: default
   syncPolicy:
     #automated:
@@ -53,7 +56,5 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-  sourceRef:
-    plugin:
-      name: jsonnet-helm-with-crds-plugin
+
 ```
