@@ -136,3 +136,13 @@ spec:
 `argocd-repo-server-values.yaml`
 
 - the `repo-server` configuration to enable plugins in ArgoCD
+
+
+
+## Apply generated output using kubectl apply
+
+```bash
+helm template argocd . --namespace argocd  --include-crds    | kubectl apply -f -  --namespace argocd --dry-run=client
+
+
+```

@@ -1,3 +1,10 @@
+
+# ArgoCD projects can
+local projects = import '../argocd-projects.libsonnet';
+
+# extras contain the configmap to be deployed in argocd.
+local extras = import 'extras.libsonnet';
+
 {
   Customizations(p):: {
     fullnameOverride: 'argocd',
@@ -167,21 +174,12 @@
         },
       ],
     },
-  },
-    extraObjects+: if std.objectHas(p, 'notifications') && std.objectHas(p.notifications, 'secrets') then [
-      #extras.notificationsExternalSecret(p),
+
+    extraObjects+: [
       extras.JsonnetHelmWithCrdsPlugin(p),
       extras.JsonnetHelmPlugin(p),
-      #extras.argocdsecretSealedSecret(p),
-      #extras.reposPatTokenSealedSecret(p),
-      #extras.reposPrivateKeySealedSecret(p),
-    ] + projects.Get(p) else [
-      extras.JsonnetHelmWithCrdsPlugin(p),
-      extras.JsonnetHelmPlugin(p),
-      #extras.argocdsecretSealedSecret(p),
-      #extras.reposPatTokenSealedSecret(p),
-      #extras.reposPrivateKeySealedSecret(p),
-    ] + projects.Get(p),
-  },
+
+    ] 
+  }
 
 }

@@ -29,3 +29,25 @@ spec:
       name: jsonnet-helm          # plugin without CRDs
 
 ```
+    plugin:
+      name: jsonnet-helm-with-crds-plugin   
+```yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-ingress
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: ingress-nginx
+  source:
+    repoURL: 'https://github.com/belajarpowershell/k3s-repository'
+    targetRevision: HEAD
+    path: 'clusters/k3s-master/ingress-nginx/helm'
+    plugin:
+      name: jsonnet-helm-with-crds-plugin         # plugin without CRDs
+
+```
