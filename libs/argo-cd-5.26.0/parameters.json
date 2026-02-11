@@ -1,5 +1,5 @@
 {
 "repository": "https://argoproj.github.io/argo-helm",
 "name": "argo-cd",
-"version": "5.25s.0"
+"version": "5.25.0"
 }

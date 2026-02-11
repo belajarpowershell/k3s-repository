@@ -69,6 +69,7 @@ helm uninstall argocd -n argocd
 ```
 
 [argocd URL](https://argocd-master.k8s.lab/)
+[k3s-master ](https://k3s-master.k8s.lab/)
 
 ## Install configmap
 

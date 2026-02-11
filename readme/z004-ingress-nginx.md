@@ -29,8 +29,7 @@ spec:
       name: jsonnet-helm          # plugin without CRDs
 
 ```
-    plugin:
-      name: jsonnet-helm-with-crds-plugin   
+
 ```yaml
 
 apiVersion: argoproj.io/v1alpha1

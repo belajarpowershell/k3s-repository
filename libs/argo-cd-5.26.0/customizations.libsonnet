@@ -22,12 +22,17 @@ local extras = import 'extras.libsonnet';
       ingress+: {
         enabled: true,
         ingressClassName: 'nginx',
-        hostname: p.hostname,
+        hostname: 'argocd-master', #p.hostname,
         domain: p.domain,
-        hosts: p.hostname + '.' + p.domain,
+        hosts: [
+          'argocd-master.k8s.lab'
+#          p.hostname + '.' + p.domain,
+        ],
         https: false,
         annotations+: {
-          'nginx.ingress.kubernetes.io/backend-protocol': 'HTTPS',
+#          'nginx.ingress.kubernetes.io/backend-protocol': 'HTTPS',
+          'nginx.ingress.kubernetes.io/backend-protocol': 'HTTP',
+
         },
       },
       insecure+: true,
@@ -45,7 +50,7 @@ local extras = import 'extras.libsonnet';
 
     repoServer+: {
       // Enable CMP in repo-server
-      extraArgs+: ['--enable-cmp', '--loglevel', 'debug'],
+      extraArgs+: [ '--loglevel', 'debug'],
 
       // Add custom PATH to include sidecar binaries
       env+: [
