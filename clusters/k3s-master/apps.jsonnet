@@ -1,6 +1,6 @@
 local clustermgmt = import '../libs/clustermanagement.libsonnet';
 local apps = import '../default-apps.jsonnet';
-local config = import './cluster.jsonnet';
+local config = import './cluster.libsonnet';
 
 local p = config;
 

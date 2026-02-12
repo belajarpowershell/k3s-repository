@@ -1,6 +1,6 @@
 # Import Parameters
 local chart = import '../../../../libs/ingress-nginx-4.10.0/Chart.libsonnet';
-local config = import '../../cluster.jsonnet';
+local config = import '../../cluster.libsonnet';
 local p = import '../../params.libsonnet';
 
 # Create config variables populated

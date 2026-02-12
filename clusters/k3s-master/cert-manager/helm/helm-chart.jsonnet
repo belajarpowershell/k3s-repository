@@ -1,5 +1,5 @@
 local chart = import '../../../../libs/cert-manager/cert-manager.jsonnet';
-local config = import '../../cluster.jsonnet';
+local config = import '../../cluster.libsonnet';
 
 # Create config variables populated
 chart(config)
