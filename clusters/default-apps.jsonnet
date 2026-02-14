@@ -2,20 +2,20 @@ local clustermgmt = import '../libs/clustermanagement.libsonnet';
 local kube = import '../libs/kube.libsonnet';
 
 // This function provides default Rbac rules
-local k3sRbac(p) = clustermgmt.App(p, 'rbac', 'rbac') {
-  spec+: {
-    project: 'platform',
-    source+: {
-      path: 'libs/k3s/rbac',
-    },
-    syncPolicy: {
-      automated: {},
-      syncOptions: [
-        'CreateNamespace=true',
-      ],
-    },
-  },
-};
+// local k3sRbac(p) = clustermgmt.App(p, 'rbac', 'rbac') {
+//   spec+: {
+//     project: 'platform',
+//     source+: {
+//       path: 'libs/k3s/rbac',
+//     },
+//     syncPolicy: {
+//       automated: {},
+//       syncOptions: [
+//         'CreateNamespace=true',
+//       ],
+//     },
+//   },
+// };
 
 
 {

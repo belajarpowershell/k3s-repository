@@ -125,3 +125,32 @@ helm template argocd . --namespace argocd  --include-crds    | kubectl apply -f 
 
 helm template argocd . --namespace argocd  --include-crds   | kubectl delete -f - #--dry-run=client
 ```
+
+
+```yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-ingress
+  namespace: argocd
+spec:
+  project: platform
+
+  destination:
+    name: in-cluster
+    namespace: ingress-nginx
+  source:
+    repoURL: 'https://github.com/belajarpowershell/k3s-repository'
+    targetRevision: HEAD
+    path: clusters/k3s-master/ingress-nginx/helm
+    plugin:
+      env:
+        - name: PLUGIN
+          value: jsonnet-helm
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+
+```

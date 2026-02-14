@@ -1,0 +1,7 @@
+{
+  controller: {
+    extraArgs: {
+      "enable-ssl-passthrough": "true",
+    },
+  },
+}

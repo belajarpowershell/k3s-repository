@@ -122,7 +122,8 @@ local extras = import 'extras.libsonnet';
         {
           name: 'jsonnet-helm-plugin',
           command: ['/var/run/argocd/argocd-cmp-server'],
-          image: 'alpine:3.19',
+          #image: 'alpine:3.19',
+          image: 'quay.io/argoproj/argocd:v2.9.0',
           securityContext: { runAsNonRoot: true, runAsUser: 999 },
           volumeMounts: [
             {
@@ -151,7 +152,8 @@ local extras = import 'extras.libsonnet';
         {
           name: 'jsonnet-helm-with-crds-plugin',
           command: ['/var/run/argocd/argocd-cmp-server'],
-          image: 'alpine:3.19',
+          #image: 'alpine:3.19',
+          image: 'quay.io/argoproj/argocd:v2.9.0',
           securityContext: { runAsNonRoot: true, runAsUser: 999 },
           volumeMounts: [
             {
