@@ -10,7 +10,7 @@ local globals = import '../../libs/globals.libsonnet';
   environment: 'dev',
   repositories: {
     'k8s-cluster-configuration': {
-      url: 'git@ssh.dev.azure.com:v3/skf-digital-manufacturing/SKF-DP-WCM%20Infrastructure/k8s-cluster-configuration',      
+      url: 'git@github.com:belajarpowershell/k3s-repository.git',      
     },
   },
   timeZone: 'America/Argentina/Buenos_Aires'
