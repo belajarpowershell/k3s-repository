@@ -4,7 +4,6 @@ local globals = import '../../libs/globals.libsonnet';
   name: 'k3s-master',
   domain: 'k8s.lab',
   hostname: 'k3s-master',
-  #uri: 'argocd.dev.ar85b.skf.io',
   policy: importstr 'policy.csv',
   region: 'az1',
   environment: 'dev',
