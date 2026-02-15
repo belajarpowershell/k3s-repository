@@ -68,7 +68,7 @@ local isPlatformApplications(name, namespace) =
       project: 'default',  //cluster.name,
       source: {
         path: 'clusters/' + cluster.region + '/' + cluster.countryFactory + '/' + cluster.environment + '/' + cluster.name,
-        repoURL: 'git@ssh.dev.azure.com:v3/skf-digital-manufacturing/SKF-DP-WCM%20Infrastructure/k8s-cluster-configuration',
+        repoURL: 'git@github.com:belajarpowershell/k3s-repository.git',
         targetRevision: 'HEAD',
       },
       syncPolicy: {
