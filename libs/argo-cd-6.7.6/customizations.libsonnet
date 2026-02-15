@@ -5,8 +5,11 @@ local projects = import '../argocd-projects.libsonnet';
 # extras contain the configmap to be deployed in argocd.
 local extras = import 'extras.libsonnet';
 
+# add remote cluster kubeconfig in secrets
 local clusterOnboarding = import 'cluster-onboarding.jsonnet';
 
+# Create projects in ArgoCD
+local projects = import './projects.libsonnet';
 
 {
   Customizations(p):: {
@@ -185,6 +188,7 @@ local clusterOnboarding = import 'cluster-onboarding.jsonnet';
       extras.JsonnetHelmWithCrdsPlugin(p),
       extras.JsonnetHelmPlugin(p),
     ]
-    + clusterOnboarding, # add create secrets for each k3s ( kubeconfig) in k3s-master
+    + clusterOnboarding # add create secrets for each k3s ( kubeconfig) in k3s-master
+    + projects,
   },
 }

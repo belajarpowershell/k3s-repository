@@ -27,8 +27,8 @@ local kube = import '../libs/kube.libsonnet';
         project: 'platform',
         syncPolicy: {
           automated: {
-            prune: true,
-            selfHeal: false,
+            // prune: true,
+            // selfHeal: false,
           },
           syncOptions: [
             'CreateNamespace=true',
@@ -42,8 +42,8 @@ local kube = import '../libs/kube.libsonnet';
         project: 'platform',
         syncPolicy: {
           automated: {
-            prune: false,
-            selfHeal: false,
+            // prune: false,
+            // selfHeal: false,
           },
           syncOptions: [
             'CreateNamespace=true',
