@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmp-jsonnet-helm
+  namespace: argocd
+data:
+  plugin.yaml: |
+    apiVersion: argoproj.io/v1alpha1
+    kind: ConfigManagementPlugin
+    metadata:
+      name: jsonnet-helm
+    spec:
+      init:
+        command: ["/bin/sh", "-c"]
+        args:
+          - mkdir -p ./templates &&
+            jsonnet -m . helm-chart.libsonnet &&
+            helm dependency build &&
+            [ -f './templates/_templates.jsonnet' ] &&
+            jsonnet ./templates/_templates.jsonnet > ./templates/templates.yaml || exit 0
+      generate:
+        command: ["/bin/sh", "-c"]
+        args:
+          - helm template $ARGOCD_APP_NAME . --api-versions monitoring.coreos.com/v1 --namespace $ARGOCD_APP_NAMESPACE

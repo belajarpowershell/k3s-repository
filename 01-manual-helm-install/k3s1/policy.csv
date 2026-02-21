@@ -1,0 +1,3 @@
+g, k3s1-admin, role:admin
+g, platform-admin, role:admin
+g, read-only, role:readonly

@@ -1,0 +1,18 @@
+{
+   "dev": {
+      "stack1": {
+         "clientID": "client-id"
+      },
+      "stack3": {
+         "clientID": "client-id"
+      }
+    },
+   "prd": {
+      "stack2": {
+         "clientID": "client-id"
+      },
+      "stack4": {
+         "clientID": "client-id"
+      }
+    }
+}

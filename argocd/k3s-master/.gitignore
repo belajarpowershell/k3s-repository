@@ -1,0 +1,5 @@
+/charts
+/templates
+Chart.lock
+Chart.yaml
+values.yaml

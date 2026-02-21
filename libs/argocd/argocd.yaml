@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami # Ensure the correct repo
+    chart: argo-cd
+    targetRevision: 4.1.0 #latest  # You can specify a version (e.g., 5.48.2)
+    helm:
+      values: |
+        dex:
+          enabled: false
+        notifications:
+          enabled: false
+        applicationSet:
+          enabled: true
+        server:
+          ingress:
+            enabled: true
+            hostname: argocd1.k8s.lab
+            ingressClassName: nginx
+            annotations:
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          extraArgs:
+            - --insecure
+          insecure: true
+        global:
+          domain: argocd.k8s.lab
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: {} # Remove or modify if you want manual sync

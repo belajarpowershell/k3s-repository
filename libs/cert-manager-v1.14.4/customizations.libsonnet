@@ -1,0 +1,5 @@
+{
+  Customizations(p):: {
+    installCRDs: true
+  },
+}
