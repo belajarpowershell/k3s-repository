@@ -4,10 +4,10 @@ set -euo pipefail
 ############################################
 # Config
 ############################################
-REPO_NAME="argo"
-REPO_URL="https://argoproj.github.io/argo-helm"
-CHART_NAME="argo-cd"
-CHART_VERSION="9.4.3"
+REPO_NAME="kube-eagle"
+REPO_URL="https://raw.githubusercontent.com/cloudworkz/kube-eagle-helm-chart/master"
+CHART_NAME="kube-eagle"
+CHART_VERSION="2.0.0"
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 LIBS_DIR="${REPO_ROOT}/libs"
@@ -57,67 +57,16 @@ echo "▶ Converting values.yaml to values.libsonnet"
 yq -o=json values.yaml | jsonnetfmt - > values.libsonnet
 
 ############################################
-# Create parameters.json
+# Create overlay for ssl-passthrough
 ############################################
-echo "▶ Creating parameters.json"
-cat <<EOF > parameters.json
+cat <<'EOF' > overlay-ssl-passthrough.libsonnet
 {
-  "repository": "${REPO_URL}",
-  "name": "${CHART_NAME}",
-  "version": "${CHART_VERSION}"
-}
-EOF
-
-############################################
-# Create chart.libsonnet
-############################################
-echo "▶ Creating chart.libsonnet"
-cat <<'EOF' > chart.libsonnet
-local p = import 'parameters.json';
-local c = import 'customizations.libsonnet';
-local defaultValues = import 'values.libsonnet';
-local name = p.name;
-local chartRepository = p.repository;
-local chartVersion = p.version;
-local extras = import 'extras.libsonnet';
-
-{
-  HelmDefinition(p):: {
-    'Chart.yaml': {
-      name: name,
-      apiVersion: 'v2',
-      version: chartVersion,
-      dependencies: [
-        {
-          name: name,
-          repository: chartRepository,
-          version: chartVersion,
-        },
-      ],
-    },
-    'values.yaml': {
-      [name]+: defaultValues + c.Customizations(p),
+  controller: {
+    extraArgs: {
+      "enable-ssl-passthrough": "true",
     },
   },
 }
-EOF
-
-############################################
-# Create empty customizations.libsonnet
-############################################
-echo "▶ Creating customizations.libsonnet"
-cat <<'EOF' > customizations.libsonnet
-{
-  Customizations(p):: {},
-}
-EOF
-
-############################################
-# Create empty extras.libsonnet
-############################################
-echo "▶ Creating extras.libsonnet"
-cat <<'EOF' > extras.libsonnet
-{}
 EOF
 
 ############################################
@@ -129,4 +78,4 @@ rm -rf "${TMPDIR}"
 # Done
 ############################################
 echo "✅ Chart installed in ${OUTDIR}"
-echo "📦 Jsonnet module ready"
+echo "📦 Ready for Jsonnet imports"
