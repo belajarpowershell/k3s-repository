@@ -117,6 +117,8 @@ helm template k3s-master-argocd . --namespace argocd --include-crds \
 ```bash
 # Login to ArgoCD
 argocd login argocd-master.k8s.lab --insecure
+admin
+YourSecurePassword
 
 # Add clusters
 kubectl config use-context k3s-01
