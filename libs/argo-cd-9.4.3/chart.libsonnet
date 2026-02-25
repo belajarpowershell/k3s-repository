@@ -1,6 +1,8 @@
+#local globals = import '../globals.libsonnet';
 local p = import 'parameters.json';
 local c = import 'customizations.libsonnet';
 local defaultValues = import 'values.libsonnet';
+
 local name = p.name;
 local chartRepository = p.repository;
 local chartVersion = p.version;
