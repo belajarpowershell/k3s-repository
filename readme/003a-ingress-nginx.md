@@ -17,7 +17,7 @@ $ARGOCD_APP_NAME=k3s-master-ingress-nginx # This is to ensure when adding this a
 ```bash
 mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -f './templates/_templates.jsonnet' ] && jsonnet ./templates _templates.jsonnet > ./templates/templates.yaml 
 
-
+k create ns ingress-nginx
 helm template k3s-master-ingress-nginx . --namespace ingress-nginx   --include-crds    | kubectl apply -f -  --namespace ingress-nginx --dry-run=client
 
 ```
