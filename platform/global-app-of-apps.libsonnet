@@ -28,7 +28,7 @@ local masterApps = [
         server: 'https://kubernetes.default.svc',  // in-cluster
         namespace: 'argocd',
       },
-      syncPolicy: { automated: {}, syncOptions: ['CreateNamespace=true'] },
+      syncPolicy: { syncOptions: ['CreateNamespace=true'] },
     },
   },
 
@@ -57,7 +57,7 @@ local remoteApps = function(cluster) [
         name: cluster,
         namespace: 'cert-manager',
       },
-      syncPolicy: { automated: {}, syncOptions: ['CreateNamespace=true'] },
+      syncPolicy: { syncOptions: ['CreateNamespace=true'] },
     },
   },
 
