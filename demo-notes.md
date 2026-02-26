@@ -1,9 +1,3 @@
-Absolutely! I've taken your draft and refined it into a structured, clean, and presentation-friendly **Markdown** format. I added headers, code blocks, formatting, and minor improvements for clarity, flow, and readability. I also included some extra context to make it easier for an audience to follow.
-
-Here’s the improved version:
-
----
-
 # Deploying Applications using Jsonnet, Helm Charts, and ArgoCD
 
 ## 🎯 Goal of This Session
