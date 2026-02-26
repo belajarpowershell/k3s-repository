@@ -129,7 +129,7 @@ argocd cluster add k3s-master --insecure
 ```bash
 kubectl config use-context k3s-master
 cd ~/k3s-repository/
-jsonnet main.jsonnet | kubectl apply -f -
+jsonnet app-of-apps.jsonnet | kubectl apply -f -
 ```
 
 * Key observations:
