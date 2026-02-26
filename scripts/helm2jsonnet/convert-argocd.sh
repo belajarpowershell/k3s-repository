@@ -7,7 +7,7 @@ set -euo pipefail
 REPO_NAME="argo"
 REPO_URL="https://argoproj.github.io/argo-helm"
 CHART_NAME="argo-cd"
-CHART_VERSION="6.7.6"
+CHART_VERSION="8.6.4"
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 LIBS_DIR="${REPO_ROOT}/libs"

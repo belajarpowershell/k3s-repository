@@ -12,5 +12,4 @@ local globals = import '../../libs/globals.libsonnet';
       url: 'https://github.com/belajarpowershell/k3s-repository.git',      
     },
   },
-  timeZone: 'America/Argentina/Buenos_Aires'
 }

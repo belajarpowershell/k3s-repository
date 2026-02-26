@@ -6,6 +6,8 @@ local clusters = [
 ];
 
 // Apps for k3s-master (ArgoCD + cert-manager + ingress-nginx)
+// THis application is static , observe there are no variables.
+// configuration references k3s-master only.
 local masterApps = [
   // ArgoCD
   {
@@ -35,6 +37,7 @@ local masterApps = [
 ];
 
 // Apps for remote clusters (no ArgoCD)
+// Here this is a function, that is created for each cluster 
 local remoteApps = function(cluster) [
   // cert-manager
   {
@@ -89,9 +92,8 @@ local remoteApps = function(cluster) [
 
 
 
-// Flatten everything
-// Must convert to YAML using 
-// global-app-of-apps.jsonnet -y | kubectl apply -f -
+// here the for each cluster in clusters loop is performed 
+// and then merged with the static ArgoCD deployment.
 masterApps + [app for cluster in clusters for app in remoteApps(cluster)]
 
 // Flatten everything 
