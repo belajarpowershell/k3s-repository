@@ -71,30 +71,22 @@ kubectl create ns argocd
 
 ```bash
 cd ~/k3s-repository/clusters/k3s-master/ingress-nginx/
-mkdir -p ./templates
 
 # Generate Jsonnet manifests from Helm chart
-jsonnet -m . helm-chart.libsonnet
-helm dependency build
-[ -f './templates/_templates.jsonnet' ] && jsonnet ./templates _templates.jsonnet > ./templates/templates.yaml
+mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -f './templates/_templates.jsonnet' ] && jsonnet ./templates _templates.jsonnet > ./templates/templates.yaml 
 
 # Apply manifests via Helm template
-helm template k3s-master-ingress-nginx . --namespace ingress-nginx --include-crds \
-  | kubectl apply -f - --namespace ingress-nginx --dry-run=client
+helm template k3s-master-ingress-nginx . --namespace ingress-nginx --include-crds  | kubectl apply -f - --namespace ingress-nginx --dry-run=client
 ```
 
 #### ArgoCD
 
 ```bash
 cd ~/k3s-repository/argocd/k3s-master/
-mkdir -p ./templates
+# Generate Jsonnet manifests from Helm chart
+mkdir -p ./templates && jsonnet -m . helm-chart.libsonnet && helm dependency build && [ -f './templates/_templates.jsonnet' ] && jsonnet ./templates _templates.jsonnet > ./templates/templates.yaml 
 
-jsonnet -m . helm-chart.libsonnet
-helm dependency build
-[ -f './templates/_templates.jsonnet' ] && jsonnet ./templates _templates.jsonnet > ./templates/templates.yaml
-
-helm template k3s-master-argocd . --namespace argocd --include-crds \
-  | kubectl apply -f - --namespace argocd
+helm template k3s-master-argocd . --namespace argocd --include-crds   | kubectl apply -f - --namespace argocd
 ```
 
 ---
