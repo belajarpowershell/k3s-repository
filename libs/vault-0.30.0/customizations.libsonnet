@@ -19,6 +19,11 @@
         extraPaths: [],
         tls: [],
       },
+      "dev": {
+            "devRootToken": "root",
+            "enabled": true
+      },
+
     }
   },
 }
