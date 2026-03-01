@@ -1,0 +1,5 @@
+{
+  "repository": "https://helm.releases.hashicorp.com",
+  "name": "vault",
+  "version": "0.30.0"
+}
