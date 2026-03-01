@@ -37,7 +37,7 @@ local masterApps = [
     apiVersion: 'argoproj.io/v1alpha1',
     kind: 'Application',
     metadata: {
-      name: 'k3s-master-argocd',
+      name: 'k3s-master-vault',
       namespace: 'argocd',
       labels: { app: 'argocd', cluster: 'k3s-master' },
     },
