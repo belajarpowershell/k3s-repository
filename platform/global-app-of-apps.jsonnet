@@ -33,7 +33,29 @@ local masterApps = [
       syncPolicy: { syncOptions: ['CreateNamespace=true'] },
     },
   },
-
+  {
+    apiVersion: 'argoproj.io/v1alpha1',
+    kind: 'Application',
+    metadata: {
+      name: 'k3s-master-argocd',
+      namespace: 'argocd',
+      labels: { app: 'argocd', cluster: 'k3s-master' },
+    },
+    spec: {
+      project: 'platform',
+      source: {
+        repoURL: 'https://github.com/belajarpowershell/k3s-repository.git',
+        targetRevision: 'HEAD',
+        path: 'clusters/k3s-master/cert-manager',
+        plugin: { env: [{ name: 'PLUGIN', value: 'jsonnet-helm-with-crds' }] },
+      },
+      destination: {
+        server: 'https://kubernetes.default.svc',  // in-cluster
+        namespace: 'vault',
+      },
+      syncPolicy: { syncOptions: ['CreateNamespace=true'] },
+    },
+  },
 ];
 
 // Apps for remote clusters (no ArgoCD)
