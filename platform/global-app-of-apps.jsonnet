@@ -46,7 +46,7 @@ local masterApps = [
       source: {
         repoURL: 'https://github.com/belajarpowershell/k3s-repository.git',
         targetRevision: 'HEAD',
-        path: 'clusters/k3s-master/cert-manager',
+        path: 'clusters/k3s-master/vault',
         plugin: { env: [{ name: 'PLUGIN', value: 'jsonnet-helm-with-crds' }] },
       },
       destination: {
